@@ -1,0 +1,26 @@
+<header class="header">
+  <nav class="nav"> 
+    <a routerLink="/" class="brand">
+      <img src="/assets/legacy/hero/Logo4.png" alt="Future" class="brand-logo">
+    </a>
+    <ul class="menu">
+      <li><a routerLink="/catalogo" routerLinkActive="active" [routerLinkActiveOptions]="{ exact:true }">Catálogo</a></li>
+      <li><a routerLink="/registro" routerLinkActive="active">Registrarse</a></li>
+      <li><a routerLink="/carrito" routerLinkActive="active">Carrito</a></li>
+      <li>
+        <button class="btn ghost" (click)="setTheme(currentTheme === 'neon' ? 'sunset' : currentTheme === 'sunset' ? 'arcade' : currentTheme === 'arcade' ? 'light' : 'neon')">
+          Cambiar tema
+        </button>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+
+<main class="container">
+  <router-outlet></router-outlet>
+</main>
+
+<footer class="footer">
+  <small>© {{ year }} FUTURE Videojuegos. Todos los derechos reservados </small>
+</footer>

@@ -1,0 +1,109 @@
+/* ====== Base (común a todos los temas) ====== */
+* { box-sizing: border-box; }
+html, body { height:100%; }
+body {
+  margin:0;
+  font-family: Inter, system-ui, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+:root {
+  /* neutrales por defecto (oscuro) */
+  --bg: #0b1220;
+  --paper: #111a2b;
+  --text: #e8ecf2;
+  --text-muted: #9fb2d1;
+  --border: rgba(255,255,255,.08);
+
+  --primary: #58a6ff;
+  --accent: #22d3ee;
+  --accent-2: #a78bfa;
+
+  --radius: 12px;
+  --shadow: 0 10px 30px rgba(0,0,0,.45);
+}
+
+/* ====== Temas ====== */
+:root[data-theme="neon"] {
+  --bg:#0b1220; --paper:#111a2b; --text:#e8ecf2; --text-muted:#9fb2d1; --border:rgba(255,255,255,.08);
+  --primary:#58a6ff; --accent:#22d3ee; --accent-2:#a78bfa;
+}
+
+:root[data-theme="sunset"] {
+  --bg:#0e0b1f; --paper:#18122b; --text:#efeef6; --text-muted:#c9c2de; --border:rgba(255,255,255,.08);
+  --primary:#ff6b6b; --accent:#ffb86b; --accent-2:#bd93f9;
+}
+
+:root[data-theme="arcade"] {
+  --bg:#0b1411; --paper:#0f1d19; --text:#e9fff6; --text-muted:#b7e5d2; --border:rgba(255,255,255,.08);
+  --primary:#34d399; --accent:#22c55e; --accent-2:#60a5fa;
+}
+
+/* (Opcional) modo claro */
+:root[data-theme="light"] {
+  --bg:#f6f7fb; --paper:#ffffff; --text:#0f172a; --text-muted:#475569; --border:#e5e7eb;
+  --primary:#2563eb; --accent:#06b6d4; --accent-2:#8b5cf6;
+}
+
+/* ====== Layout ====== */
+.header { background: var(--paper); border-bottom: 1px solid var(--border); }
+.nav { max-width: 1180px; margin:0 auto; padding:.75rem 1rem; display:flex; align-items:center; justify-content:space-between; }
+.logo { font-weight:800; color: var(--primary); text-decoration:none; letter-spacing:.3px; }
+.menu { display:flex; gap:1.25rem; list-style:none; margin:0; padding:0; }
+.menu a { color: var(--text); text-decoration:none; opacity:.85; }
+.menu a.active, .menu a:hover { opacity:1; color: var(--primary); }
+
+.container { max-width: 1180px; margin: 1.25rem auto; padding: 0 1rem; }
+.footer { max-width:1180px; margin: 3rem auto 1rem; padding: 0 1rem; opacity:.7; text-align:center; }
+
+/* ====== UI piezas ====== */
+.btn {
+  display:inline-flex; align-items:center; gap:.5rem;
+  padding:.6rem 1rem; border-radius: var(--radius);
+  border:1px solid var(--border); background:#1a2538; color:var(--text);
+  cursor:pointer; transition: transform .08s ease, box-shadow .2s ease, background .2s ease;
+}
+.btn:hover { transform: translateY(-1px); box-shadow: var(--shadow); }
+.btn.primary { background: var(--primary); border-color: transparent; color:#081019; }
+.btn.ghost { background: transparent; }
+.badge { font-size:.75rem; padding:.15rem .4rem; border-radius: 8px; background: color-mix(in srgb, var(--accent) 25%, transparent); color: var(--accent); }
+
+/* ====== Cards / Grid ====== */
+.grid { display:grid; gap:1rem; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+.card {
+  background: var(--paper); color: var(--text);
+  border:1px solid var(--border); border-radius: var(--radius);
+  overflow:hidden; box-shadow: 0 0 0 transparent; transition: transform .1s ease, box-shadow .2s ease, border-color .2s ease;
+}
+.card:hover { transform: translateY(-3px); box-shadow: var(--shadow); border-color: color-mix(in srgb, var(--primary) 30%, var(--border)); }
+.card .media { width:100%; aspect-ratio: 16/9; object-fit:cover; display:block; }
+.card .body { padding:.8rem 1rem; display:flex; align-items:center; justify-content:space-between; gap:.75rem; }
+.card .title { margin:.15rem 0; font-weight:700; }
+.card .price { margin:0; color: var(--text-muted); }
+
+/* ====== Hero ====== */
+.hero { position:relative; text-align:center; color:var(--text); }
+.hero .banner { width:100%; height:360px; object-fit:cover; border-radius: var(--radius); }
+.hero .overlay {
+  position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+  background: linear-gradient(0deg, rgba(0,0,0,.45), rgba(0,0,0,.35));
+}
+.hero .cta {
+  backdrop-filter: blur(6px);
+  background: color-mix(in srgb, var(--paper) 70%, transparent);
+  padding: 1rem 1.25rem; border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+
+/* en styles.scss o donde tengas tu barra */
+.brand { display:flex; align-items:center; gap:.25rem; text-decoration:none; }
+.brand-logo {
+  height: 28px;        /* 32 si quieres un poco más grande */
+  width: auto;
+  display:block;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,.35));
+}
+@media (min-width: 1200px) {
+  .brand-logo { height: 70px; }
+}
