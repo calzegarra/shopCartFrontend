@@ -1,0 +1,11 @@
+<div class="login">
+  <h2>Iniciar Sesión</h2>
+  <form (ngSubmit)="login()">
+    <input pInputText placeholder="Usuario" [(ngModel)]="username" name="username" required />
+    <p-password placeholder="Contraseña" [(ngModel)]="password" name="password" [feedback]="false"></p-password>
+    <button pButton type="submit" label="Ingresar" [disabled]="loading"></button>
+  </form>
+  <p class="error" *ngIf="error">{{ error }}</p>
+  <p class="alt">¿No tengo cuenta? <a routerLink="/registro">Registrarme</a></p>
+</div>
+

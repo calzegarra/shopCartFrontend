@@ -1,0 +1,25 @@
+<!-- Floating bubble button -->
+<button class="chat-bubble" (click)="toggle()" aria-label="Abrir chat">
+  &#128172;
+  <span class="sr-only">Abrir chat</span>
+</button>
+
+<!-- Floating chat panel (kept in DOM; hidden via CSS when closed) -->
+<section class="chat-panel" [class.open]="isOpen" aria-live="polite" aria-label="Asistente Future">
+  <header class="chat-header">
+    <div class="title">Asistente Future</div>
+    <button class="close-btn" (click)="toggle()" aria-label="Cerrar">&times;</button>
+  </header>
+
+  <div class="chat-body">
+    <div class="message" *ngFor="let m of messages()" [class.user]="m.role==='user'" [class.bot]="m.role==='bot'">
+      <div class="bubble">{{ m.content }}</div>
+    </div>
+  </div>
+
+  <footer class="chat-input">
+    <input type="text" placeholder="Escribe tu mensaje..." [(ngModel)]="inputMessage" (keyup.enter)="send()" [disabled]="isSending" />
+    <button class="send-btn" (click)="send()" [disabled]="isSending || !inputMessage.trim()">Enviar</button>
+  </footer>
+</section>
+

@@ -1,0 +1,7 @@
+.toggle { position: fixed; left: 14px; bottom: 96px; z-index: 1001; }
+:host ::ng-deep .p-drawer.dark { background: #0f1115; color: #e6e6e6; border-right: 1px solid rgba(255,255,255,.06); width: 300px; }
+.brand { display:flex; align-items:center; gap:8px; font-weight:600; margin-bottom: 12px; }
+.nav { display:grid; gap:10px; }
+.nav a { display:flex; align-items:center; gap:10px; color:#e6e6e6; text-decoration:none; padding:10px 8px; border-radius:8px; }
+.nav a:hover { background:#141824; }
+

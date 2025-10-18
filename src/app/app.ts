@@ -1,21 +1,23 @@
 import { Component, HostBinding } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+import { ChatWidgetComponent } from './components/chat-widget/chat-widget.component';
+import { SidebarNavComponent } from './components/sidebar-nav/sidebar-nav.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, RouterLinkActive],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, ChatWidgetComponent, SidebarNavComponent],
   templateUrl: './app.html',
   styleUrls: ['./app.scss']
 })
 export class AppComponent {
   readonly year = new Date().getFullYear();
 
-  // Mantén el tema en el atributo de <html> (root)
-  @HostBinding('attr.data-theme') get theme() { return null; } // no aplica aquí
-  get root() { return document.documentElement; }
 
-  currentTheme = (localStorage.getItem('theme') ?? 'neon');
+  @HostBinding('attr.data-theme') get theme() { return null; } // no aplica aquí
+  get root() { return document  .documentElement; }
+
+  currentTheme = (localStorage.getItem('theme') ?? 'Lara Light Indigo');
 
   ngOnInit() {
     this.root.setAttribute('data-theme', this.currentTheme);

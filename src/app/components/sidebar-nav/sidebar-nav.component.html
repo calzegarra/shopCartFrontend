@@ -1,0 +1,16 @@
+<button pButton class="toggle" icon="pi pi-bars" (click)="visible=true" [text]="true" [rounded]="true" [outlined]="true" aria-label="Menu"></button>
+<p-drawer [(visible)]="visible" [modal]="true" position="left" styleClass="dark">
+  <div class="brand">
+    <i class="pi pi-shield"></i>
+    <span>Future Admin</span>
+  </div>
+  <nav class="nav">
+    <a routerLink="/" (click)="visible=false"><i class="pi pi-home"></i> <span>Inicio</span></a>
+    <a routerLink="/catalogo" (click)="visible=false"><i class="pi pi-list"></i> <span>Catálogo</span></a>
+    <a routerLink="/carrito" (click)="visible=false"><i class="pi pi-shopping-cart"></i> <span>Carrito</span></a>
+    <a routerLink="/registro" (click)="visible=false"><i class="pi pi-user-plus"></i> <span>Registro</span></a>
+    <a routerLink="/empleados" (click)="visible=false"><i class="pi pi-users"></i> <span>Empleados</span></a>
+    <a routerLink="/login" (click)="visible=false"><i class="pi pi-sign-in"></i> <span>Login</span></a>
+  </nav>
+</p-drawer>
+

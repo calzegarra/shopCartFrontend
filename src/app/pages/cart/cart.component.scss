@@ -1,0 +1,17 @@
+.cart-list {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+.cart-item {
+  padding: .6rem .8rem;
+  display: grid;
+  grid-template-columns: 1fr auto auto auto;
+  gap: 1rem;
+  align-items: center;
+}
+.cart-total { text-align: right; font-weight: 600; }
+

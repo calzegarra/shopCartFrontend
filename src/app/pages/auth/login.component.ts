@@ -1,0 +1,37 @@
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { InputTextModule } from 'primeng/inputtext';
+import { PasswordModule } from 'primeng/password';
+import { ButtonModule } from 'primeng/button';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { RouterLink } from '@angular/router';
+
+@Component({
+  selector: 'app-login',
+  standalone: true,
+  imports: [CommonModule, FormsModule, InputTextModule, PasswordModule, ButtonModule, RouterLink],
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss']
+})
+export class LoginComponent {
+  username = '';
+  password = '';
+  loading = false;
+  error: string | null = null;
+
+  constructor(private http: HttpClient, private router: Router) {}
+
+  login() {
+    this.loading = true;
+    this.error = null;
+    this.http.post<{token: string}>('/api/auth/login', { username: this.username, password: this.password })
+      .subscribe({
+        next: (res) => { localStorage.setItem('token', res.token); this.router.navigateByUrl('/empleados'); },
+        error: () => { this.error = 'Usuario o contraseña inválidos'; this.loading = false; },
+        complete: () => { this.loading = false; }
+      });
+  }
+}
+

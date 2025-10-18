@@ -1,0 +1,19 @@
+<h2>Catálogo</h2>
+<div class="grid">
+  @for (game of games(); track game.id) {
+    <div class="card">
+      <img class="media" [src]="game.cover" alt="">
+      <div class="body">
+        <div>
+          <h3 class="title">{{ game.title }}</h3>
+          <p class="price">
+            <span class="badge" *ngIf="game.discount">-{{ game.discount }}%</span>
+            {{ game.price | currency }}
+          </p>
+        </div>
+        <p-button icon="pi pi-shopping-cart" [rounded]="true" [severity]="'primary'" (click)="addToCart(game)"></p-button>
+      </div>
+    </div>
+  }
+</div>
+

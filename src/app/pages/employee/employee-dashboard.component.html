@@ -1,0 +1,67 @@
+<div class="page">
+  <p-card header="Registro de empleado" styleClass="form-card">
+    <form class="form" #formRef="ngForm" (ngSubmit)="save(formRef)">
+      <div class="grid">
+        <div class="col">
+          <label>Nombre</label>
+          <input pInputText [(ngModel)]="model.name" name="name" required />
+        </div>
+        <div class="col">
+          <label>Apellido</label>
+          <input pInputText [(ngModel)]="model.lastname" name="lastname" required />
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="col">
+          <label>Rol</label>
+          <input pInputText [(ngModel)]="model.role" name="role" required />
+        </div>
+        <div class="col">
+          <label>Departamento</label>
+          <select class="native" [(ngModel)]="model.department" name="department">
+            <option [ngValue]="undefined" disabled selected>Seleccionar</option>
+            <option *ngFor="let d of departments" [value]="d.value">{{ d.label }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="col">
+          <label>Fecha de ingreso</label>
+          <p-floatlabel>
+            <p-datepicker inputId="over_label" showIcon iconDisplay="input" />
+            <label for="over_label">Over Label</label>
+          </p-floatlabel>
+        </div>
+        <div class="col">
+          <label>Estado</label>
+          <select class="native" [(ngModel)]="model.status" name="status">
+            <option *ngFor="let s of statuses" [value]="s.value">{{ s.label }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button 
+          pButton 
+          type="submit" 
+          label="Guardar" 
+          icon="pi pi-check" 
+          [disabled]="saving || !formRef.valid">
+        </button>
+        <button 
+          pButton 
+          type="button" 
+          severity="danger" 
+          label="Cancelar" 
+          icon="pi pi-times" 
+          (click)="reset()">
+        </button>
+      </div>
+
+      <p class="ok" *ngIf="saved">Guardado correctamente.</p>
+    </form>
+  </p-card>
+</div>
+

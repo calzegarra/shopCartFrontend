@@ -7,7 +7,9 @@
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "style": "scss"
+          "style": "scss",
+          "inlineStyle": false,
+          "inlineTemplate": false
         }
       },
       "root": "",
@@ -31,6 +33,8 @@
               }
             ],
             "styles": [
+              "primeicons/primeicons.css",
+              "primeflex/primeflex.css",
               "src/styles.scss"
             ]
           },
@@ -89,15 +93,16 @@
               }
             ],
             "styles": [
-              "node_modules/@primeuix/themes/lara/lara-dark-blue/theme.css",
-              "node_modules/primeng/resources/primeng.min.css",
-              "node_modules/primeicons/primeicons.css",
-              "node_modules/primeflex/primeflex.css",
+              "primeicons/primeicons.css",
+              "primeflex/primeflex.css",
               "src/styles.scss"
             ]
           }
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }
