@@ -1,9 +1,11 @@
-import { Component, signal } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { CartService } from '../../services/cart.service';
+import { CatalogService } from '../../services/catalog.service';
+import { DtoCatalog } from '../../model/catalog.model';
 
-type Item = { id: string; title: string; price: number; cover: string; discount: number };
+type GameVM = { id: string; title: string; price: number; cover: string; hasDiscount: boolean };
 
 @Component({
   standalone: true,
@@ -11,13 +13,37 @@ type Item = { id: string; title: string; price: number; cover: string; discount:
   imports: [CommonModule, CurrencyPipe, ButtonModule],
   templateUrl: './catalog.component.html'
 })
-export class CatalogComponent {
-  constructor(private cart: CartService) {}
-  games = signal<Item[]>([
-    { id:'eldenring', title: 'Elden Ring', price: 59.99, cover: '/assets/eldenring.jpg', discount: 0.20 },
-    { id:'hades2', title: 'Hades II', price: 39.99, cover: '/assets/hades2.jpg' , discount: 0.40},
-    { id:'celeste', title: 'Celeste', price: 14.99, cover: '/assets/celeste.jpg', discount: 0.30 }
-  ]);
-  addToCart(item: Item) { this.cart.add({ id:item.id, title:item.title, price:item.price }); }
+export class CatalogComponent implements OnInit {
+  constructor(private cart: CartService, private catalog: CatalogService) {}
+
+  games = signal<GameVM[]>([]);
+
+  ngOnInit(): void {
+    this.catalog.findCatalog().subscribe({
+      next: (resp) => {
+        const list = (resp?.data ?? []).map(this.mapDtoToVm);
+        this.games.set(list);
+      },
+      error: (err) => {
+        console.error('Error loading catalog', err);
+        this.games.set([]);
+      }
+    });
+  }
+
+  private mapDtoToVm(dto: DtoCatalog): GameVM {
+    const imgSrc = dto.mini ? `data:image/jpeg;base64,${dto.mini}` : '';
+    return {
+      id: String(dto.id),
+      title: dto.title,
+      price: Number(dto.price),
+      cover: imgSrc,
+      hasDiscount: Number(dto.hasDiscount) === 1
+    };
+  }
+
+  addToCart(item: GameVM) {
+    this.cart.add({ id: item.id, title: item.title, price: item.price });
+  }
 }
 

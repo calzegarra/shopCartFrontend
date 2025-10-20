@@ -7,7 +7,7 @@
         <div>
           <h3 class="title">{{ game.title }}</h3>
           <p class="price">
-            <span class="badge" *ngIf="game.discount">-{{ game.discount }}%</span>
+            <span class="badge" *ngIf="game.hasDiscount">Oferta</span>
             {{ game.price | currency }}
           </p>
         </div>

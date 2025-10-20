@@ -1,0 +1,54 @@
+<div class="toolbar" style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 1rem;">
+<p-floatlabel>
+    <p-iconfield>
+        <p-inputicon class="pi pi-search" />
+        <input pInputText id="over_label" [(ngModel)]="titulo" autocomplete="off" />
+    </p-iconfield>
+    <label for="over_label">Buscar por título</label>
+</p-floatlabel>
+  <button pButton type="button" severity="help" label="Nuevo videojuego" icon="pi pi-prime"></button>
+  <span style="flex: 1 1 auto;"></span>
+<p>¡Buscando, {{ titulo }}!</p>
+</div>
+
+<p-table
+  [value]="items"
+  [paginator]="true"
+  [rows]="5"
+
+  [rowsPerPageOptions]="[5,10,20]"
+  [loading]="loading"
+  responsiveLayout="scroll"
+>
+  <ng-template pTemplate="header">
+    <tr>
+      <th>ID</th>
+      <th>Título</th>
+      <th>¿Tiene descuento?</th>
+      <th>Precio unitario</th>
+      <th>Estado</th>
+      <th>Acciones</th>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="body" let-row>
+    <tr>
+      <td>{{ row.id }}</td>
+      <td>{{ row.title }}</td>
+      <td>{{ row.hasDiscount === 1 ? 'Sí' : 'No' }}</td>
+      <td>{{ row.price | currency }}</td>
+      <td>{{ row.state }}</td>
+      <td>
+        <button pButton type="button" [rounded]="true" icon="pi pi-pen-to-square"></button>
+        <button pButton type="button" [rounded]="true" severity="danger" icon="pi pi-times"></button>
+      </td>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td colspan="5">No hay registros</td>
+    </tr>
+  </ng-template>
+</p-table>
+

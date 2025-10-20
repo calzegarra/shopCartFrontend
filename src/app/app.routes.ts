@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
 import { CatalogComponent } from './pages/catalog/catalog.component';
+import { ListVideogamesComponent } from './pages/dash-videogames/list-videogames/list-videogames.component'; 
 import { CartComponent } from './pages/cart/cart.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { EmployeeDashboardComponent } from './pages/employee/employee-dashboard.component';
@@ -15,6 +16,7 @@ export const routes: Routes = [
   { path: 'empleados', component: EmployeeDashboardComponent },
   { path: 'login', component: LoginComponent },
   { path: 'dashboard', component: IndexDashboardComponent },
+  { path: 'list-videogames', component: ListVideogamesComponent },
   { path: 'future-videogames', component: HomeComponent },
   { path: '**', redirectTo: '' }
 ];
