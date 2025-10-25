@@ -7,22 +7,22 @@ import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
+import { Console } from '../../../model/console.model';
 import { RouterLink } from '@angular/router';
-import { DtoCatalog } from '../../../model/catalog.model';
-import { CatalogService } from '../../../services/catalog.service';
+import { ConsoleService } from '../../../services/console.service';
 
 @Component({
-  selector: 'app-list-videogames',
+  selector: 'app-list-console',
   standalone: true,
   imports: [CommonModule, TableModule, InputTextModule, ButtonModule, IconFieldModule, InputIconModule, FloatLabelModule, FormsModule, RouterLink],
-  templateUrl: './list-videogames.html'
+  templateUrl: './list-console.html'
 })
-export class ListVideogamesComponent implements OnInit {
-  items: DtoCatalog[] = [];
+export class ListConsoleComponent implements OnInit {
+  items: Console[] = [];
   loading = false;
   titulo: string = '';
 
-  constructor(private catalog: CatalogService) {}
+  constructor(private catalog: ConsoleService) {}
 
   ngOnInit(): void {
     this.load();
@@ -30,7 +30,7 @@ export class ListVideogamesComponent implements OnInit {
 
   load(): void {
     this.loading = true;
-    this.catalog.findCatalog().subscribe({
+    this.catalog.findAllConsoles().subscribe({
       next: (resp) => {
         this.items = resp?.data ?? [];
         this.loading = false;
@@ -42,4 +42,3 @@ export class ListVideogamesComponent implements OnInit {
     });
   }
 }
-

@@ -8,21 +8,21 @@ import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { RouterLink } from '@angular/router';
-import { DtoCatalog } from '../../../model/catalog.model';
-import { CatalogService } from '../../../services/catalog.service';
+import { Promo } from '../../../model/promo.model';
+import { PromoService } from '../../../services/promo.service';
 
 @Component({
-  selector: 'app-list-videogames',
+  selector: 'app-list-promo',
   standalone: true,
   imports: [CommonModule, TableModule, InputTextModule, ButtonModule, IconFieldModule, InputIconModule, FloatLabelModule, FormsModule, RouterLink],
-  templateUrl: './list-videogames.html'
+  templateUrl: './list-promo.html'
 })
-export class ListVideogamesComponent implements OnInit {
-  items: DtoCatalog[] = [];
+export class ListPromoComponent implements OnInit {
+  items: Promo[] = [];
   loading = false;
   titulo: string = '';
 
-  constructor(private catalog: CatalogService) {}
+  constructor(private catalog: PromoService) {}
 
   ngOnInit(): void {
     this.load();
@@ -30,7 +30,7 @@ export class ListVideogamesComponent implements OnInit {
 
   load(): void {
     this.loading = true;
-    this.catalog.findCatalog().subscribe({
+    this.catalog.findAllPromos().subscribe({
       next: (resp) => {
         this.items = resp?.data ?? [];
         this.loading = false;

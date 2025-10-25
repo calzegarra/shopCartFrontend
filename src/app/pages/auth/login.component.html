@@ -1,11 +1,18 @@
-<div class="login">
+  <div class="login">
   <h2>Iniciar Sesión</h2>
   <form (ngSubmit)="login()">
-    <input pInputText placeholder="Usuario" [(ngModel)]="username" name="username" required />
-    <p-password placeholder="Contraseña" [(ngModel)]="password" name="password" [feedback]="false"></p-password>
-    <button pButton type="submit" label="Ingresar" [disabled]="loading"></button>
+    <p-floatlabel>
+      <input pInputText id="over_label" [(ngModel)]="username" name="username" autocomplete="off" required />
+      <label for="over_label">Usuario</label>
+    </p-floatlabel>
+
+    <p-password [(ngModel)]="password" name="password" [toggleMask]="true"></p-password>
+
+    <button pButton type="submit" [disabled]="loading">
+      <i class="pi pi-check" pButtonIcon></i>
+      <span pButtonLabel>Ingresar</span>
+    </button>
   </form>
   <p class="error" *ngIf="error">{{ error }}</p>
   <p class="alt">¿No tengo cuenta? <a routerLink="/registro">Registrarme</a></p>
 </div>
-

@@ -1,5 +1,19 @@
-<h2>Catálogo</h2>
-<div class="grid">
+
+<section class="catalog-hero">
+  <img class="catalog-hero-img" src="/assets/banner.jpg" alt="Banner" loading="eager">
+  <img
+      class="hero-logo"
+      src="/assets/legacy/hero/Logo3.png"
+      alt="Future"
+      width="540" height="160" />
+
+  <div class="hero-overlay-cta">
+    <p style="font-family: 'Press Start 2P', cursive;color: black;">Explora nuevos mundos virtuales</p>
+  </div>
+</section>
+
+<h2 style="font-family: 'Press Start 2P'">Catálogo</h2>
+<div class="grid" id="catalog-grid">
   @for (game of games(); track game.id) {
     <div class="card">
       <img class="media" [src]="game.cover" alt="">
@@ -11,9 +25,84 @@
             {{ game.price | currency }}
           </p>
         </div>
-        <p-button icon="pi pi-shopping-cart" [rounded]="true" [severity]="'primary'" (click)="addToCart(game)"></p-button>
+        <p-button icon="pi pi-search" [rounded]="true" [severity]="'contrast'" (click)="openDetails(game)"></p-button>
       </div>
     </div>
   }
 </div>
 
+<p-dialog maskStyleClass="backdrop-blur-sm"
+          [(visible)]="visible"
+          styleClass="chrome-dialog no-header"
+          [style]="{ width: '65vw' }"
+          [breakpoints]="{ '960px': '80vw', '640px': '95vw' }"
+          [modal]="true"
+          [dismissableMask]="true"
+          [showHeader]="false"
+          [closable]="false"
+          (onHide)="closeDialog()">
+  <ng-template pTemplate="content">
+    <div class="dialog-close">
+      <p-button
+        icon="pi pi-times"
+        [rounded]="true"
+        [text]="true"
+        (click)="closeDialog()"
+        aria-label="Cerrar">
+      </p-button>
+    </div>
+    <div *ngIf="selected as sg" class="detail-wrap">
+      <div class="detail-grid">
+        <div class="detail-media">
+          <p-image
+            [src]="sg.image2 ? ('data:image/jpeg;base64,' + sg.image2) : (sg.image3 ? ('data:image/jpeg;base64,' + sg.image3) : (sg.mini ? ('data:image/jpeg;base64,' + sg.mini) : ''))"
+            [alt]="sg.title"
+            [preview]="true"
+            [imageStyle]="{ width: '100%', maxWidth: '640px', maxHeight: '70vh', objectFit: 'contain', borderRadius: '8px' }"
+          ></p-image>
+
+          <div style="display:flex; gap:.5rem; margin-top:.75rem; flex-wrap: wrap;">
+            @if (sg.image2) {
+              <p-image
+                [src]="'data:image/jpeg;base64,' + sg.image2"
+                [alt]="sg.title + ' image2'"
+                [preview]="true"
+                [imageStyle]="{ width: '120px', height: '120px', objectFit: 'cover', borderRadius: '6px' }"
+              ></p-image>
+            }
+            @if (sg.image3) {
+              <p-image
+                [src]="'data:image/jpeg;base64,' + sg.image3"
+                [alt]="sg.title + ' image3'"
+                [preview]="true"
+                [imageStyle]="{ width: '120px', height: '120px', objectFit: 'cover', borderRadius: '6px' }"
+              ></p-image>
+            }
+          </div>
+        </div>
+        <div class="detail-info">
+          <h3 style="margin: 0 0 .5rem 0;">{{ sg.title }}</h3>
+          <p style="margin: 0 0 .5rem 0;">
+            <strong>Consola:</strong> {{ sg.console.description }}
+          </p>
+          <p style="margin: 0 0 .5rem 0;">{{ sg.description }}</p>
+          <p style="margin: 0 0 .75rem 0; font-size: 1.1rem; font-weight: 600;">
+            {{ sg.price | currency }}
+          </p>
+
+          <div style="display: flex; flex-wrap: wrap; gap: .5rem;">
+            @for (cat of sg.detailsCategories; track cat.id) {
+              <p-tag [value]="cat.description"></p-tag>
+            }
+            <p-button icon="pi pi-shopping-cart" [rounded]="true" [severity]="'primary'" (click)="addSelectedToCart()"></p-button>
+          </div>
+            
+        </div>
+      </div>
+    </div>
+    <div *ngIf="loadingDetails">Cargando...</div>
+  </ng-template>
+
+</p-dialog>
+
+<p-toast position="bottom-right"></p-toast>

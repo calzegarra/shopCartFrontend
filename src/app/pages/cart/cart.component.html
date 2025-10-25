@@ -1,4 +1,4 @@
-<h2>Carrito</h2>
+<h2 style="font-family: 'Press Start 2P', cursive;color: rgb(255, 255, 255);">Carrito</h2>
 @if ((cart.items()||[]).length === 0) {
   <p>Tu carrito está vacío.</p>
 } @else {
@@ -8,7 +8,7 @@
         <span>{{ it.title }}</span>
         <span>x{{ it.qty }}</span>
         <span>{{ it.price * it.qty | currency }}</span>
-        <button class="btn" (click)="cart.remove(it.id)">Quitar</button>
+        <p-button [rounded]="true" severity="contrast" (click)="cart.remove(it.id)"  icon="pi pi-cart-minus" ></p-button>
       </li>
     }
   </ul>

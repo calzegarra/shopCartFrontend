@@ -4,14 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { ButtonModule } from 'primeng/button';
-import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
-import { RouterLink } from '@angular/router';
+import { FloatLabelModule } from 'primeng/floatlabel';
+import { Router, RouterLink } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule, InputTextModule, PasswordModule, ButtonModule, RouterLink],
+  imports: [CommonModule, FormsModule, InputTextModule, PasswordModule, ButtonModule, FloatLabelModule, RouterLink],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
@@ -21,17 +21,14 @@ export class LoginComponent {
   loading = false;
   error: string | null = null;
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private auth: AuthService, private router: Router) {}
 
   login() {
     this.loading = true;
     this.error = null;
-    this.http.post<{token: string}>('/api/auth/login', { username: this.username, password: this.password })
-      .subscribe({
-        next: (res) => { localStorage.setItem('token', res.token); this.router.navigateByUrl('/empleados'); },
-        error: () => { this.error = 'Usuario o contraseña inválidos'; this.loading = false; },
-        complete: () => { this.loading = false; }
-      });
+    this.auth.login(this.username, this.password).subscribe({
+      next: () => { this.loading = false; },
+      error: () => { this.error = 'Credenciales invalidas'; this.loading = false; }
+    });
   }
 }
-

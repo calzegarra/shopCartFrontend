@@ -4,9 +4,41 @@
       <img src="/assets/legacy/hero/Logo4.png" alt="Future" class="brand-logo">
     </a>
     <ul class="menu">
-      <li><a routerLink="/catalogo" routerLinkActive="active" [routerLinkActiveOptions]="{ exact:true }">Catálogo</a></li>
-      <li><a routerLink="/login" routerLinkActive="active">Login</a></li>
-      <li><a routerLink="/carrito" routerLinkActive="active">Carrito</a></li>
+      <ng-container *ngIf="!auth.user(); else userArea">
+        <li><a routerLink="/login" routerLinkActive="active">Login</a></li>
+      </ng-container>
+
+      <ng-template #userArea>
+        <li class="user-slot" (click)="toggleMenu($event)" style="position: relative;">
+
+              <p-avatar 
+              [label]="!auth.user()?.avatar ? avatarLabel() : undefined"
+              [image]="auth.user()?.avatar || undefined"
+              class="mr-2" 
+              size="large" 
+              shape="circle">
+            </p-avatar>
+
+
+          <span class="username">¡Bienvenido {{ userName }}!</span>
+          <div *ngIf="menuOpen" style="position:absolute; right:0; top: 110%; z-index: 1000;" (click)="$event.stopPropagation()">
+          <p-tieredmenu [model]="menuItems"></p-tieredmenu> 
+          </div>
+        </li>
+      </ng-template>
+
+      <li class="cart-link">
+        <a routerLink="/carrito" routerLinkActive="active" class="cart-icon-link" aria-label="Carrito">
+          <ng-container *ngIf="cartCount() > 0; else emptyCartIcon">
+            <p-overlayBadge [value]="cartCount()" severity="success">
+              <i class="pi pi-shopping-cart" style="font-size: 1.25rem"></i>
+            </p-overlayBadge>
+          </ng-container>
+          <ng-template #emptyCartIcon>
+            <i class="pi pi-shopping-cart" style="font-size: 1.25rem"></i>
+          </ng-template>
+        </a>
+      </li>
       <li>
         <button class="btn ghost" title="Cambiar tema"
           (click)="setTheme(currentTheme === 'neon' ? 'sunset' : currentTheme === 'sunset' ? 'arcade' : currentTheme === 'arcade' ? 'light' : 'neon')"
@@ -24,7 +56,6 @@
 </main>
 
 <app-chat-widget></app-chat-widget>
-<app-sidebar-nav></app-sidebar-nav>
 <footer class="footer">
   <small>© {{ year }} FUTURE Videojuegos. Todos los derechos reservados </small>
 </footer>

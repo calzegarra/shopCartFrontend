@@ -4,9 +4,9 @@
         <p-inputicon class="pi pi-search" />
         <input pInputText id="over_label" [(ngModel)]="titulo" autocomplete="off" />
     </p-iconfield>
-    <label for="over_label">Buscar por título</label>
+    <label for="over_label">Buscar por descripcion</label>
 </p-floatlabel>
-  <button pButton type="button" severity="help" label="Nuevo videojuego" icon="pi pi-prime"></button>
+  <button pButton type="button" severity="help" label="Nueva Consola" icon="pi pi-desktop"></button>
   <button pButton type="button" severity="contrast" label="Volver" icon="pi pi-undo" routerLink="/dashboard"></button>
   <span style="flex: 1 1 auto;"></span>
 <p>¡Buscando, {{ titulo }}!</p>
@@ -24,9 +24,7 @@
   <ng-template pTemplate="header">
     <tr>
       <th>ID</th>
-      <th>Título</th>
-      <th>¿Tiene descuento?</th>
-      <th>Precio unitario</th>
+      <th>Descripcion</th>
       <th>Estado</th>
       <th>Acciones</th>
     </tr>
@@ -35,10 +33,8 @@
   <ng-template pTemplate="body" let-row>
     <tr>
       <td>{{ row.id }}</td>
-      <td>{{ row.title }}</td>
-      <td>{{ row.hasDiscount === 1 ? 'Sí' : 'No' }}</td>
-      <td>{{ row.price | currency }}</td>
-      <td>{{ row.state }}</td>
+      <td>{{ row.description }}</td>
+      <td>{{ row.state === 1 ? 'Inactivo' : 'Activo' }}</td>
       <td>
         <button pButton type="button" [rounded]="true" icon="pi pi-pen-to-square"></button>
         <button pButton type="button" [rounded]="true" severity="danger" icon="pi pi-times"></button>
@@ -52,4 +48,3 @@
     </tr>
   </ng-template>
 </p-table>
-
