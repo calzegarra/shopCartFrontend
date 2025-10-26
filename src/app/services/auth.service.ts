@@ -114,10 +114,18 @@ export class AuthService {
     return this.http.get(`${API}/${endpoint}`, { headers, responseType: 'text' });
   }
 
-  logout() {
+  updateSession(user: UserProfile) {
+    const basic = btoa(`${user.username}:${user.password}`);
+    this._user.set(user);
+    this.persist(user, basic);
+  }
+
+  logout(redirect = true) {
     console.log('🟡 Entrando a logout()...');
     this._user.set(null);
     this.persist(null, null);
-    this.router.navigateByUrl('/future-videogames');
+    if (redirect) {
+      this.router.navigateByUrl('/future-videogames');
+    }
   }
 }

@@ -1,6 +1,6 @@
-﻿import { Component, HostBinding, HostListener, computed } from '@angular/core';
+﻿import { Component, HostBinding, HostListener, computed, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+import { RouterOutlet, RouterLink, RouterLinkActive, Router } from '@angular/router';
 import { ChatWidgetComponent } from './components/chat-widget/chat-widget.component';
 import { BadgeModule } from 'primeng/badge';
 import { OverlayBadgeModule } from 'primeng/overlaybadge';
@@ -20,18 +20,25 @@ import { CartService } from './services/cart.service';
 })
 export class AppComponent {
   readonly year = new Date().getFullYear();
-  constructor(private cart: CartService, public auth: AuthService) {}
+  constructor(private cart: CartService, public auth: AuthService, private router: Router) {}
 
-  // Total de Ã­tems en el carrito (suma de qty)
+  // Total de items en el carrito (suma de qty)
   readonly cartCount = computed(() => this.cart.items().reduce((n, it) => n + it.qty, 0));
 
 
-  @HostBinding('attr.data-theme') get theme() { return null; } // no aplica aquÃ­
+  @HostBinding('attr.data-theme') get theme() { return null; } // no aplica aqui
   get root() { return document  .documentElement; }
 
   currentTheme = (localStorage.getItem('theme') ?? 'Lara Light Indigo');
-  menuItems: MenuItem[] = []; // ✅ agrega esta línea
-
+  menuItems: MenuItem[] = [];
+  private readonly syncMenuItems = effect(() => {
+    const user = this.auth.user();
+    const role = (user?.role?.description || '').toUpperCase();
+    this.menuItems = this.createMenuItems(role);
+    if (!user) {
+      this.menuOpen = false;
+    }
+  });
 
   ngOnInit() {
     this.root.setAttribute('data-theme', this.currentTheme);
@@ -40,33 +47,7 @@ export class AppComponent {
     } else {
       this.root.classList.add('p-dark');
     }
-
-    const isClient = this.auth.role === 'CLIENTE';
-    this.menuItems = [
-      { label: 'Mi perfil', icon: 'pi pi-user', command: () => console.log('Perfil') },
-    ];
-
-    if (isClient) {
-      this.menuItems.push(
-        { label: 'Mis compras', icon: 'pi pi-shopping-bag', command: () => console.log('Compras') },
-        { label: 'Favoritos', icon: 'pi pi-heart', command: () => console.log('Favoritos') },
-        { label: 'Mis reseñas', icon: 'pi pi-star', command: () => console.log('Reseñas') },
-      );
-    }
-
-    this.menuItems.push({ separator: true });
-
-    this.menuItems.push({
-      label: 'Cerrar sesión',
-      icon: 'pi pi-sign-out',
-      command: () => {
-        console.log('🟢 Ejecutando logout...');
-        this.menuOpen = false;
-        this.auth.logout();
-      }
-    });
   }
-
 
   setTheme(next: 'neon'|'sunset'|'arcade'|'light') {
     this.currentTheme = next;
@@ -98,7 +79,37 @@ export class AppComponent {
     return base.charAt(0).toUpperCase();
   }
 
+  private createMenuItems(role: string): MenuItem[] {
+    const isClient = role === 'CLIENTE';
+    const items: MenuItem[] = [
+      { label: 'Mi perfil', icon: 'pi pi-user', command: () => this.goToProfile() },
+    ];
 
-  
+    if (isClient) {
+      items.push(
+        { label: 'Mis compras', icon: 'pi pi-shopping-bag', command: () => console.log('Compras') },
+        { label: 'Favoritos', icon: 'pi pi-heart', command: () => console.log('Favoritos') },
+        { label: 'Mis resenas', icon: 'pi pi-star', command: () => console.log('Resenas') },
+      );
+    }
+
+    items.push({ separator: true });
+    items.push({
+      label: 'Cerrar sesion',
+      icon: 'pi pi-sign-out',
+      command: () => {
+        console.log('Ejecutando logout...');
+        this.menuOpen = false;
+        this.auth.logout();
+      }
+    });
+
+    return items;
+  }
+
+  private goToProfile() {
+    this.menuOpen = false;
+    this.router.navigateByUrl('/perfil');
+  }
+
 }
-

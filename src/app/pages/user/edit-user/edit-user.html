@@ -1,0 +1,202 @@
+﻿<section class="new-user">
+  <p-toast position="top-right"></p-toast>
+  <h1 style="font-family: 'Press Start 2P'; text-align: center;">Editar mi perfil</h1>
+
+  <div *ngIf="loading" class="status">
+    Cargando perfil...
+  </div>
+
+  <form *ngIf="!loading" #userForm="ngForm" (ngSubmit)="submit(userForm)" novalidate>
+    <div class="form-grid">
+      <div class="field">
+        <p-floatLabel>
+          <input
+            pInputText
+            id="name"
+            name="name"
+            [(ngModel)]="user.name"
+            required
+            [pKeyFilter]="namePattern"
+            autocomplete="given-name"
+            #name="ngModel"
+          />
+          <label for="name">Nombre</label>
+        </p-floatLabel>
+        <small *ngIf="name.invalid && (name.dirty || name.touched || userForm.submitted)" class="error">
+          El nombre es obligatorio y solo debe contener letras.
+        </small>
+      </div>
+
+      <div class="field">
+        <p-floatLabel>
+          <input
+            pInputText
+            id="lastname"
+            name="lastname"
+            [(ngModel)]="user.lastname"
+            required
+            [pKeyFilter]="namePattern"
+            autocomplete="family-name"
+            #lastname="ngModel"
+          />
+          <label for="lastname">Apellido</label>
+        </p-floatLabel>
+        <small *ngIf="lastname.invalid && (lastname.dirty || lastname.touched || userForm.submitted)" class="error">
+          El apellido es obligatorio y solo debe contener letras.
+        </small>
+      </div>
+
+      <div class="field">
+        <p-floatLabel>
+          <input
+            pInputText
+            id="dni"
+            name="dni"
+            [(ngModel)]="user.dni"
+            required
+            [pKeyFilter]="'num'"
+            inputmode="numeric"
+            pattern="^[0-9]{8}$"
+            maxlength="8"
+            minlength="8"
+            autocomplete="off"
+            #dni="ngModel"
+          />
+          <label for="dni">DNI</label>
+        </p-floatLabel>
+        <small *ngIf="dni.invalid && (dni.dirty || dni.touched || userForm.submitted)" class="error">
+          El DNI es obligatorio y solo debe contener 8 numeros.
+        </small>
+      </div>
+
+      <div class="field">
+        <p-floatLabel>
+          <input
+            pInputText
+            id="address"
+            name="address"
+            [(ngModel)]="user.address"
+            required
+            autocomplete="street-address"
+            #address="ngModel"
+          />
+          <label for="address">Direccion</label>
+        </p-floatLabel>
+        <small *ngIf="address.invalid && (address.dirty || address.touched || userForm.submitted)" class="error">
+          La direccion es obligatoria.
+        </small>
+      </div>
+
+      <div class="field">
+        <p-floatLabel>
+          <input
+            pInputText
+            id="email"
+            name="email"
+            type="email"
+            [(ngModel)]="user.email"
+            required
+            autocomplete="email"
+            #email="ngModel"
+          />
+          <label for="email">Correo electronico</label>
+        </p-floatLabel>
+        <small *ngIf="email.invalid && (email.dirty || email.touched || userForm.submitted)" class="error">
+          Ingresa un correo electronico valido.
+        </small>
+      </div>
+
+      <div class="field">
+        <p-floatLabel>
+          <input
+            pInputText
+            id="username"
+            name="username"
+            [(ngModel)]="user.username"
+            required
+            autocomplete="username"
+            #username="ngModel"
+          />
+          <label for="username">Usuario</label>
+        </p-floatLabel>
+        <small *ngIf="username.invalid && (username.dirty || username.touched || userForm.submitted)" class="error">
+          El nombre de usuario es obligatorio.
+        </small>
+      </div>
+
+      <div class="field">
+        <p-floatLabel>
+          <p-password
+            inputId="password"
+            name="password"
+            [(ngModel)]="user.password"
+            required
+            [toggleMask]="true"
+            [feedback]="true"
+            autocomplete="new-password"
+            #password="ngModel"
+          ></p-password>
+          <label for="password">Contrasena</label>
+        </p-floatLabel>
+      </div>
+
+      <div class="field">
+        <p-floatLabel>
+          <p-password
+            inputId="confirmPassword"
+            name="confirmPassword"
+            [(ngModel)]="confirmPassword"
+            required
+            [toggleMask]="true"
+            [feedback]="false"
+            autocomplete="new-password"
+            #confirmPasswordModel="ngModel"
+          ></p-password>
+          <label for="confirmPassword">Confirmar contrasena</label>
+        </p-floatLabel>
+        <small *ngIf="confirmPassword && !passwordsMatch" class="error">
+          Las contrasenas deben coincidir.
+        </small>
+      </div>
+    </div>
+
+    <div class="avatar-area">
+      <p-fileUpload
+        name="avatar"
+        url="https://www.primefaces.org/cdn/api/upload.php"
+        mode="advanced"
+        accept="image/*"
+        [maxFileSize]="1000000"
+        [multiple]="true"
+        [auto]="true"
+        [customUpload]="true"
+        (uploadHandler)="handleAvatarUpload($event)"
+        (onClear)="onAvatarRemove()"
+        (onRemove)="onAvatarRemove()"
+      >
+        <ng-template pTemplate="empty">
+          <div>Arrastra y suelta la imagen de tu avatar aqui.</div>
+        </ng-template>
+      </p-fileUpload>
+
+      <p-image *ngIf="avatarPreview" [src]="avatarPreview" alt="Vista previa del avatar" [preview]="true"></p-image>
+    </div>
+
+    <div class="messages">
+      <p class="error" *ngIf="error">{{ error }}</p>
+      <p class="success" *ngIf="success">{{ success }}</p>
+    </div>
+
+    <div class="button-row">
+      <button pButton type="button" label="Volver" icon="pi pi-arrow-left" (click)="goBack()"></button>
+      <button
+        pButton
+        type="submit"
+        label="Guardar"
+        icon="pi pi-save"
+        [disabled]="saving || loading || !formReady"
+      ></button>
+    </div>
+  </form>
+</section>
+
