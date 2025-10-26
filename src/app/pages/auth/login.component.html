@@ -2,11 +2,14 @@
   <h2>Iniciar Sesión</h2>
   <form (ngSubmit)="login()">
     <p-floatlabel>
-      <input pInputText id="over_label" [(ngModel)]="username" name="username" autocomplete="off" required />
-      <label for="over_label">Usuario</label>
+      <input pInputText id="username" [(ngModel)]="username" name="username" autocomplete="off" required />
+      <label for="username">Usuario</label>
     </p-floatlabel>
 
-    <p-password [(ngModel)]="password" name="password" [toggleMask]="true"></p-password>
+    <p-floatlabel>
+      <p-password inputId="password" [(ngModel)]="password" name="password" [toggleMask]="true" [feedback]="false"></p-password>
+      <label for="password">Contraseña</label>
+    </p-floatlabel>
 
     <button pButton type="submit" [disabled]="loading">
       <i class="pi pi-check" pButtonIcon></i>

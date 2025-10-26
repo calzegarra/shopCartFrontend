@@ -4,3 +4,19 @@ form { display: grid; gap: 12px; }
 .alt { margin-top: 10px; color: #cbd5e1; }
 .alt a { color: #93c5fd; text-decoration: none; }
 
+/* Alinear y unificar ancho de los campos y el icono del p-password */
+:host ::ng-deep .p-floatlabel > .p-inputtext,
+:host ::ng-deep .p-floatlabel > .p-password {
+  width: 100%;
+}
+
+:host ::ng-deep .p-password {
+  width: 100%;
+  display: block;
+  position: relative;
+}
+
+:host ::ng-deep .p-password input.p-inputtext {
+  width: 100%;
+  padding-right: 2.5rem; /* espacio para el ojo */
+}

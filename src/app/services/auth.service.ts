@@ -11,6 +11,7 @@ export type UserProfile = {
   lastname: string;
   email: string;
   username: string;
+  password: string;
   role: Role;
   avatar?: string | null;
 };
@@ -72,6 +73,7 @@ export class AuthService {
           lastname: res.data.lastname!,
           email: res.data.email!,
           username: res.data.username!,
+          password: res.data.password!,
           role: res.data.role as Role,
           avatar: res.data.avatar ? `data:image/png;base64,${res.data.avatar}` : null,
         };

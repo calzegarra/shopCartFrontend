@@ -1,0 +1,42 @@
+<h1 style="font-family: 'Press Start 2P'">Editar Videojuego</h1>
+<div class="grid" style="display:grid; gap:1rem; grid-template-columns: 1fr; max-width: 780px;">
+  <p-floatlabel variant="on">
+    <input pInputText id="title" class="w-full" [(ngModel)]="model.title" required />
+    <label for="title">Titulo</label>
+  </p-floatlabel>
+
+  <p-floatlabel variant="on">
+    <textarea inputId="description" class="w-full" pInputTextarea [autoResize]="true" rows="4" cols="30" [(ngModel)]="model.description"></textarea>
+    <label for="description">Descripcion</label>
+  </p-floatlabel>
+
+  <div class="row" style="display:grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
+    <p-floatlabel variant="on">   
+      <p-inputNumber inputId="integeronly" [(ngModel)]="model.stock" mode="decimal" class="w-full" [min]="0"></p-inputNumber>
+      <label for="integeronly">Cantidad</label>
+    </p-floatlabel>
+    <p-floatlabel variant="on">
+      <p-inputNumber inputId="price" [(ngModel)]="model.price" mode="currency" class="w-full" currency="PEN" locale="es-PE"></p-inputNumber>
+      <label for="price">Precio Unitario</label>
+    </p-floatlabel>
+  </div>
+
+  <p-multiselect [options]="states" [(ngModel)]="model.state" placeholder="Seleccione estado" [selectionLimit]="1" display="chip" class="w-full"></p-multiselect>
+  <p-multiselect [options]="consoles" [(ngModel)]="model.console" placeholder="Seleccione Consola" [filter]="true" [selectionLimit]="1" display="chip" class="w-full"></p-multiselect>
+
+  <div style="display:flex; align-items:center; gap:.5rem;">
+    <p-checkbox inputId="hasDiscount" [(ngModel)]="model.hasDiscount" binary="true"></p-checkbox>
+    <label for="hasDiscount">¿Tiene descuento?</label>
+  </div>
+  <p-multiselect [options]="promos" optionLabel="description" [(ngModel)]="selectedPromos" placeholder="Seleccione Promociones" [disabled]="!model.hasDiscount" display="chip" class="w-full"></p-multiselect>
+
+  <p-multiselect [options]="categories" optionLabel="description" [(ngModel)]="selectedCategories" placeholder="Seleccione Categorías" display="chip" class="w-full"></p-multiselect>
+
+  <p-fileUpload name="images" mode="advanced" [multiple]="true" accept="image/*" [maxFileSize]="1000000"
+    [auto]="true" [customUpload]="true" (uploadHandler)="onUpload($event)" (onSelect)="onUpload($event)">
+  </p-fileUpload>
+
+  <button pButton type="button" label="Volver" icon="pi pi-arrow-left" routerLink="/list-videogames"></button>
+  <span style="flex:1 1 auto"></span>
+  <button pButton type="button" severity="success" label="Actualizar" icon="pi pi-save" (click)="update()"></button>
+</div>

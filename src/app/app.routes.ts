@@ -22,6 +22,8 @@ export const routes: Routes = [
   { path: 'list-console', component: ListConsoleComponent },
   { path: 'list-promo', component: ListPromoComponent },
   { path: 'list-videogames', component: ListVideogamesComponent },
+  { path: 'videogame-create', canActivate: [dashboardGuard], loadComponent: () => import('./pages/dash-videogames/create-videogame/create-videogame.component').then(m => m.CreateVideogameComponent) },
+  { path: 'videogame-edit/:id', canActivate: [dashboardGuard], loadComponent: () => import('./pages/dash-videogames/edit-videogame/edit-videogame.component').then(m => m.EditVideogameComponent) },
   { path: 'future-videogames', component: CatalogComponent },
   { path: '**', redirectTo: '' }
 ];

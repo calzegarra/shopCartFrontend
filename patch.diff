@@ -1,0 +1,6 @@
+*** Begin Patch
+*** Update File: src/app/pages/auth/login.component.html
+@@
+-  <h2>Iniciar SesiA3n</h2>
++  <h2>Iniciar Sesión</h2>
+*** End Patch
