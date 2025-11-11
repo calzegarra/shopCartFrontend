@@ -79,6 +79,11 @@ export class AppComponent {
     return base.charAt(0).toUpperCase();
   }
 
+  isClientUser(): boolean {
+    const role = (this.auth.user()?.role?.description || '').toUpperCase();
+    return role === 'CLIENTE';
+  }
+
   private createMenuItems(role: string): MenuItem[] {
     const isClient = role === 'CLIENTE';
     const items: MenuItem[] = [
@@ -87,9 +92,14 @@ export class AppComponent {
 
     if (isClient) {
       items.push(
-        { label: 'Mis compras', icon: 'pi pi-shopping-bag', command: () => console.log('Compras') },
+        { label: 'Mis compras', icon: 'pi pi-shopping-bag', command: () => this.goToMyPurchases() },
         { label: 'Favoritos', icon: 'pi pi-heart', command: () => console.log('Favoritos') },
-        { label: 'Mis resenas', icon: 'pi pi-star', command: () => console.log('Resenas') },
+        { label: 'Mis reseñas', icon: 'pi pi-star', command: () => console.log('Resenas') },
+      );
+    }else{
+        items.push(
+        { label: 'Dashboard', icon: 'pi pi-sitemap', command: () => this.goToDashboard() },
+        { label: 'Pagina Principal', icon: 'pi pi-discord', command: () => this.goToMainPage() },
       );
     }
 
@@ -111,5 +121,21 @@ export class AppComponent {
     this.menuOpen = false;
     this.router.navigateByUrl('/perfil');
   }
+
+  private goToDashboard() {
+    this.menuOpen = false;
+    this.router.navigateByUrl('/dashboard');
+  }
+
+  private goToMainPage() {
+    this.menuOpen = false;
+    this.router.navigateByUrl('/future-videogames');
+  }
+
+  private goToMyPurchases() {
+    this.menuOpen = false;
+    this.router.navigateByUrl('/mis-compras');
+  }
+
 
 }

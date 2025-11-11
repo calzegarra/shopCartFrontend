@@ -1,0 +1,35 @@
+<section class="detail-container" *ngIf="hasPurchase; else emptyState">
+  <h1>Muchas gracias por su compra {{ purchase()?.user }}, esperamos que lo disfrute</h1>
+  <p class="text-muted">Transaccion realizada el {{ purchase()?.createDate | date: 'dd/MM/yyyy HH:mm' }}</p>
+
+  <article
+    class="purchase-card"
+    *ngFor="let item of purchase()?.detailItems ?? []; trackBy: trackByTitle"
+  >
+    <img [src]="imageSrc(item)" [alt]="item.title" />
+    <div>
+      <h3>{{ item.title }}</h3>
+      <p>Cantidad: {{ item.amount }}</p>
+      <div class="price-line">
+        <span [class.strikethrough]="item.unitDiscount > 0">
+          S/. {{ item.unitPrice ?? 0 | number: '1.2-2' }}
+        </span>
+        <span *ngIf="item.unitDiscount > 0">
+          -{{ formatDiscount(item) }}%
+        </span>
+      </div>
+      <small *ngIf="item.subtotal">Subtotal: S/. {{ item.subtotal | number: '1.2-2' }}</small>
+    </div>
+  </article>
+
+  <div class="summary">
+    <h2>Total pagado: S/. {{ purchase()?.total | number: '1.2-2' }}</h2>
+  </div>
+</section>
+
+<ng-template #emptyState>
+  <div class="empty-state">
+    <p>No encontramos una compra reciente. ¿Quieres explorar el catalogo?</p>
+    <button class="btn" (click)="backToStore()">Volver al catalogo</button>
+  </div>
+</ng-template>

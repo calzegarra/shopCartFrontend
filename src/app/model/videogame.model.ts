@@ -23,10 +23,11 @@ export interface Videogame {
   stock: number;
   price: number;
   state: string;
-  image: string;
+  image: string;  
   image2: string; // base64
   image3: string; // base64
   mini: string;   // base64
+  file: string; // base64
   detailsPromo: any[]; // Not used in UI for now
   detailsCategories: CategoryModel[];
 }

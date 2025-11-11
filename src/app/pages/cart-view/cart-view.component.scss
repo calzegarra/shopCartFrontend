@@ -1,0 +1,189 @@
+:host {
+  display: block;
+  padding: 2rem 1rem 4rem;
+}
+
+.cart-view {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.cart-view__header .eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.75rem;
+  color: var(--text-secondary, #8795a1);
+  margin-bottom: 0.25rem;
+}
+
+.cart-view__header h1 {
+  margin: 0;
+  font-size: clamp(1.75rem, 3vw, 2.4rem);
+}
+
+.cart-view__header p {
+  margin: 0.25rem 0 0;
+  color: var(--text-secondary, #94a3b8);
+}
+
+.state {
+  border-radius: 1rem;
+  border: 1px dashed rgba(255, 255, 255, 0.18);
+  padding: 2rem;
+  text-align: center;
+  color: var(--text-color, #e2e8f0);
+  background: rgba(255, 255, 255, 0.02);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.state i {
+  font-size: 2rem;
+}
+
+.state--error {
+  border-color: rgba(239, 68, 68, 0.5);
+}
+
+.state--empty {
+  border-color: rgba(147, 197, 253, 0.4);
+}
+
+.cart-view__accordion ::ng-deep .p-accordion-header-link {
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.purchase-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+.purchase-header__info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.purchase-id {
+  font-weight: 600;
+  color: var(--text-color, #f8fafc);
+}
+
+.purchase-date,
+.purchase-total {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--text-secondary, #94a3b8);
+}
+
+.purchase-total {
+  font-weight: 600;
+  color: var(--primary-color, #38bdf8);
+}
+
+.cart-view__body {
+  padding: 1rem 0.25rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.purchase-meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.purchase-meta small {
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary, #94a3b8);
+}
+
+.purchase-meta p {
+  margin: 0.25rem 0 0;
+  font-weight: 600;
+}
+
+.detail-state {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  color: var(--text-secondary, #94a3b8);
+}
+
+.detail-state--error {
+  color: #f87171;
+}
+
+.cart-view__detail {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.game-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  flex-wrap: wrap;
+}
+
+.game-card__cover {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 0.75rem;
+  background: rgba(15, 23, 42, 0.8);
+}
+
+.game-card__body {
+  flex: 1;
+  min-width: 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.game-card__body h3 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.game-card__actions {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+@media (max-width: 768px) {
+  .purchase-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .game-card__cover {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
+}

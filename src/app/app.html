@@ -27,7 +27,7 @@
         </li>
       </ng-template>
 
-      <li class="cart-link">
+      <li class="cart-link" *ngIf="isClientUser()">
         <a routerLink="/carrito" routerLinkActive="active" class="cart-icon-link" aria-label="Carrito">
           <ng-container *ngIf="cartCount() > 0; else emptyCartIcon">
             <p-overlayBadge [value]="cartCount()" severity="success">

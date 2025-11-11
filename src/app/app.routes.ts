@@ -22,8 +22,14 @@ export const routes: Routes = [
   { path: 'list-console', component: ListConsoleComponent },
   { path: 'list-promo', component: ListPromoComponent },
   { path: 'list-videogames', component: ListVideogamesComponent },
+  { path: 'midetallecompra', loadComponent: () => import('./pages/cart-user/cart-user').then((m) => m.CartUserComponent) },
+  { path: 'mis-compras', loadComponent: () => import('./pages/cart-view/cart-view.component').then((m) => m.CartViewComponent) },
   { path: 'videogame-create', canActivate: [dashboardGuard], loadComponent: () => import('./pages/dash-videogames/create-videogame/create-videogame.component').then(m => m.CreateVideogameComponent) },
   { path: 'videogame-edit/:id', canActivate: [dashboardGuard], loadComponent: () => import('./pages/dash-videogames/edit-videogame/edit-videogame.component').then(m => m.EditVideogameComponent) },
+  {
+    path: 'future-videogames/:id',
+    loadComponent: () => import('./pages/catalog-detail/catalog-detail.component').then((m) => m.CatalogDetailComponent)
+  },
   { path: 'future-videogames', component: CatalogComponent },
   { path: '**', redirectTo: '' }
 ];

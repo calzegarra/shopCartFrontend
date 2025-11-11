@@ -1,0 +1,69 @@
+<section class="catalog-detail">
+  <div class="detail-header">
+    <a pButton routerLink="/future-videogames" severity="secondary" [text]="true">
+      <span pButtonIcon class="pi pi-arrow-left"></span>
+      <span pButtonLabel style="font-family: 'Press Start 2P'">Volver al catálogo</span>
+    </a>
+  </div>
+
+  <ng-container *ngIf="!loading && game as detail; else detailState">
+    <div class="detail-grid">
+      <div class="detail-media">
+        <p-image
+          [src]="mainImage(detail)"
+          [alt]="detail.title"
+          [preview]="true"
+          [imageStyle]="{ width: '100%', maxWidth: '640px', maxHeight: '70vh', objectFit: 'contain', borderRadius: '12px' }"
+        ></p-image>
+
+        <div class="detail-thumbs" *ngIf="secondaryImages(detail).length > 0">
+          <p-image
+            *ngFor="let img of secondaryImages(detail); index as i"
+            [src]="img"
+            [alt]="detail.title + ' preview ' + (i + 1)"
+            [preview]="true"
+            [imageStyle]="{ width: '120px', height: '120px', objectFit: 'cover', borderRadius: '8px' }"
+          ></p-image>
+        </div>
+      </div>
+
+      <div class="detail-info">
+        <h2 style="font-family: 'Press Start 2P'">{{ detail.title }}</h2>
+        <p class="detail-console">
+          <strong>Consola:</strong> {{ detail.console?.description }}
+        </p>
+        <p class="detail-description">
+          {{ detail.description }}
+        </p>
+        <p class="detail-price">
+          {{ detail.price | currency: 'S/.':'symbol':'1.2-2' }}
+        </p>
+
+        <div class="detail-tags" *ngIf="detail.detailsCategories?.length">
+          <p-tag
+            *ngFor="let cat of detail.detailsCategories; track cat.id"
+            [value]="cat.description"
+          ></p-tag>
+        </div>
+
+        <button
+          pButton
+          type="button"
+          [rounded]="true"
+          [severity]="'primary'"
+          (click)="addToCart(detail)"
+        >
+          <span pButtonIcon class="pi pi-shopping-cart"></span>
+          <span pButtonLabel>Agregar al carrito</span>
+        </button>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-template #detailState>
+    <div class="detail-state" *ngIf="loading">Cargando...</div>
+    <div class="detail-state error" *ngIf="!loading && errorMessage">{{ errorMessage }}</div>
+  </ng-template>
+
+  <p-toast position="bottom-right"></p-toast>
+</section>

@@ -1,0 +1,45 @@
+.detail-container {
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.purchase-card {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.2);
+  align-items: center;
+}
+
+.purchase-card img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 0.5rem;
+}
+
+.price-line {
+  display: flex;
+  gap: 0.75rem;
+  align-items: baseline;
+}
+
+.strikethrough {
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+
+.summary {
+  align-self: flex-end;
+  text-align: right;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 2rem;
+}

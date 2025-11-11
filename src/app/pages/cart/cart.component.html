@@ -1,6 +1,6 @@
 <h2 style="font-family: 'Press Start 2P', cursive;color: rgb(255, 255, 255);">Carrito</h2>
 @if ((cart.items()||[]).length === 0) {
-  <p>Tu carrito está vacío.</p>
+  <p>Tu carrito esta vacio.</p>
 } @else {
   <ul class="cart-list">
     @for (it of cart.items(); track it.id) {
@@ -13,5 +13,29 @@
     }
   </ul>
   <div class="cart-total">Total: {{ cart.total() | currency }}</div>
+  <div class="cart-actions">
+    <p-button
+      label="Comprar"
+      icon="pi pi-credit-card"
+      severity="success"
+      (click)="buy()"
+      [disabled]="!hasItems || loading"
+      [loading]="loading"
+    ></p-button>
+  </div>
 }
 
+<p-toast></p-toast>
+
+<p-dialog
+  header="Autenticacion requerida"
+  [(visible)]="authDialogVisible"
+  [modal]="true"
+  [closable]="false"
+>
+  <p>Se requiere que se autentique para completar la compra.</p>
+  <div class="dialog-actions">
+    <p-button label="Ir al login" icon="pi pi-sign-in" (click)="goToLogin()" severity="primary"></p-button>
+    <p-button label="Cancelar" icon="pi pi-times" severity="secondary" [outlined]="true" (click)="authDialogVisible = false"></p-button>
+  </div>
+</p-dialog>

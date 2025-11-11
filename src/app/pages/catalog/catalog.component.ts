@@ -87,5 +87,11 @@ export class CatalogComponent implements OnInit {
     this.cart.add({ id: item.id, title: item.title, price: item.price });
     this.messages.add({ severity: 'success', summary: 'Agregado', detail: `${item.title} agregado al carrito` });
   }
+
+  openGameInNewTab(id: string) {
+  if (!id) return;
+  // abre en una nueva pestaña sin afectar la navegación actual
+  window.open(`/future-videogames/${id}`, '_blank', 'noopener,noreferrer');
+}
 }
 

@@ -14,4 +14,15 @@
   align-items: center;
 }
 .cart-total { text-align: right; font-weight: 600; }
+.cart-actions {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: flex-end;
+}
+.dialog-actions {
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
 

@@ -7,22 +7,49 @@ import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { MessageModule } from 'primeng/message';
 import { DtoCatalog } from '../../../model/catalog.model';
 import { CatalogService } from '../../../services/catalog.service';
+
+type FlashSeverity = 'success' | 'info' | 'warn' | 'error';
+type FlashState = { responseMessage?: string; responseSeverity?: FlashSeverity };
 
 @Component({
   selector: 'app-list-videogames',
   standalone: true,
-  imports: [CommonModule, TableModule, InputTextModule, ButtonModule, IconFieldModule, InputIconModule, FloatLabelModule, FormsModule, RouterLink],
+  imports: [
+    CommonModule,
+    TableModule,
+    InputTextModule,
+    ButtonModule,
+    IconFieldModule,
+    InputIconModule,
+    FloatLabelModule,
+    FormsModule,
+    RouterLink,
+    MessageModule
+  ],
   templateUrl: './list-videogames.html'
 })
 export class ListVideogamesComponent implements OnInit {
   items: DtoCatalog[] = [];
   loading = false;
   titulo: string = '';
+  flashMessage: string | null = null;
+  flashSeverity: FlashSeverity = 'success';
 
-  constructor(private catalog: CatalogService) {}
+  constructor(
+    private catalog: CatalogService,
+    private router: Router
+  ) {
+    const nav = this.router.getCurrentNavigation();
+    const extrasState = (nav?.extras?.state ?? {}) as FlashState;
+    if (extrasState.responseMessage) {
+      this.flashMessage = extrasState.responseMessage;
+      this.flashSeverity = extrasState.responseSeverity ?? 'success';
+    }
+  }
 
   ngOnInit(): void {
     this.load();
@@ -42,4 +69,3 @@ export class ListVideogamesComponent implements OnInit {
     });
   }
 }
-

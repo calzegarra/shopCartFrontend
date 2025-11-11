@@ -1,0 +1,111 @@
+<section class="cart-view">
+  <header class="cart-view__header">
+    <div>
+      <p class="eyebrow">Historial</p>
+      <h2 style="font-family: 'Press Start 2P'">Mis compras</h2>
+      <p>Consulta tus pedidos anteriores y accede al detalle de cada carrito cuando lo necesites.</p>
+    </div>
+  </header>
+
+  <div class="state state--loading" *ngIf="isLoadingList()">
+    <i class="pi pi-spin pi-spinner"></i>
+    <p>Cargando tu historial...</p>
+  </div>
+
+  <div class="state state--error" *ngIf="!isLoadingList() && listError()">
+    <i class="pi pi-exclamation-triangle"></i>
+    <p>{{ listError() }}</p>
+  </div>
+
+  <div class="state state--empty" *ngIf="!isLoadingList() && !listError() && !hasPurchases">
+    <i class="pi pi-inbox"></i>
+    <p>Aun no registras compras. Explora nuestro catalogo y realiza tu primera orden.</p>
+  </div>
+
+  <p-accordion
+      class="cart-view__accordion"
+      [multiple]="true"
+      *ngIf="!isLoadingList() && hasPurchases"
+      (valueChange)="onAccordionValueChange($event)"
+      class="cart-view__accordion"
+  >
+    <p-accordion-panel
+      *ngFor="let purchase of purchases(); trackBy: trackByCart"
+      [value]="purchase.cartId"
+    >
+      <p-accordion-header>
+        <div class="purchase-header">
+          <div class="purchase-header__info">
+            <span class="purchase-id">Compra realizada el
+            <span class="purchase-date">
+              <i class="pi pi-calendar"></i>
+              {{ purchase.createDate | date: 'dd/MM/yyyy HH:mm' }}
+            </span>
+          </span>
+          </div>
+          <span class="purchase-total">
+            <i class="pi pi-wallet"></i>
+            {{ purchase.total | currency: 'S/.':'symbol':'1.2-2' }}
+          </span>
+        </div>
+      </p-accordion-header>
+
+      <p-accordion-content>
+        <div class="cart-view__body">
+
+          <div class="detail-state" *ngIf="isDetailLoading(purchase.cartId)">
+            <i class="pi pi-spin pi-spinner"></i>
+            <span>Cargando detalle de la compra...</span>
+          </div>
+
+          <div class="detail-state detail-state--error" *ngIf="!isDetailLoading(purchase.cartId) && detailError(purchase.cartId)">
+            <i class="pi pi-exclamation-circle"></i>
+            <span>{{ detailError(purchase.cartId) }}</span>
+          </div>
+
+          <div class="cart-view__detail" *ngIf="cartDetail(purchase.cartId) as detail">
+            <article class="game-card" *ngFor="let game of detail.detailsVideogames; trackBy: trackByGame">
+              <img [src]="gameImage(game)" [alt]="game.title" class="game-card__cover" />
+              <div class="game-card__body">
+                <h3>{{ game.title }}</h3>
+                <div class="game-card__actions">
+                  <button
+                    type="button"
+                    pButton
+                    label="Ver detalle"
+                    icon="pi pi-search"
+                    (click)="viewGameDetail(game)"
+                  ></button>
+                    <button
+                    type="button"
+                    pButton
+                    severity="help"
+                    label="Descargar e Instalar"
+                    icon="pi pi-download"
+                    (click)="requestRefund(game)"
+                  ></button>
+                   <button
+                    type="button"
+                    pButton
+                    severity="info"
+                    label="Reseñar"
+                    icon="pi pi-address-book"
+                    (click)="requestRefund(game)"
+                  ></button>
+                  <button
+                    type="button"
+                    pButton
+                    severity="danger"
+                    label="Solicitar devolución"
+                    icon="pi pi-refresh"
+                    (click)="requestRefund(game)"
+                  ></button>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </p-accordion-content>
+    </p-accordion-panel>
+  </p-accordion>
+</section>
