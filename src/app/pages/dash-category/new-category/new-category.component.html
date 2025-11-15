@@ -1,0 +1,40 @@
+<p-toast></p-toast>
+<h1 style="text-align:center;font-family: 'Press Start 2P'">Nueva Categoría</h1>
+
+<div style="display:flex; justify-content:center; width:100%;">
+  <div class="grid" style="display:grid; gap:1rem; grid-template-columns: 1fr; width:100%; max-width: 520px;">
+  <p-floatlabel variant="on">
+    <input
+      pInputText
+      id="description"
+      class="w-full"
+      [(ngModel)]="model.description"
+      autocomplete="off"
+      required
+    />
+    <label for="description">Descripción</label>
+  </p-floatlabel>
+
+  <p-multiselect
+    [options]="states"
+    optionLabel="label"
+    optionValue="value"
+    [(ngModel)]="model.state"
+    placeholder="Seleccione estado"
+    [selectionLimit]="1"
+    display="chip"
+    class="w-full"
+  ></p-multiselect>
+    <button pButton type="button" label="Volver" icon="pi pi-arrow-left" routerLink="/list-category"></button>
+    <span style="flex:1 1 auto;"></span>
+    <button
+      pButton
+      type="button"
+      severity="success"
+      label="Guardar"
+      icon="pi pi-save"
+      (click)="submit()"
+      [disabled]="saving"
+    ></button>
+  </div>
+</div>

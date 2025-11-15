@@ -1,31 +1,22 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Observable, catchError, map, of } from 'rxjs';
+import { ResponseData } from '../../model/responseData.model';
+
+type ChatReply = { reply: string };
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChatGptService {
-
-  private apiUrl = 'https://api.openai.com/v1/chat/completions';
-  private apiKey = 'TU_API_KEY_AQUI'; // ⚠️ NO dejar esto en producción
+  private readonly apiUrl = '/api/chatgpt/ask';
 
   constructor(private http: HttpClient) {}
 
-  sendMessage(message: string): Observable<any> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${this.apiKey}`
-    });
-
-    const body = {
-      model: 'gpt-4o-mini',
-      messages: [
-        { role: 'system', content: 'Eres un asistente amigable para clientes de Future Store.' },
-        { role: 'user', content: message }
-      ]
-    };
-
-    return this.http.post(this.apiUrl, body, { headers });
+  sendMessage(message: string): Observable<ChatReply> {
+    return this.http.post<ResponseData<ChatReply>>(this.apiUrl, { message }).pipe(
+      map((res) => res?.data ?? { reply: 'No se obtuvo respuesta del asistente.' }),
+      catchError(() => of({ reply: 'Lo siento, ocurrió un error al contactar al asistente.' }))
+    );
   }
 }

@@ -10,11 +10,10 @@
 
       <ng-template #userArea>
         <li class="user-slot" (click)="toggleMenu($event)" style="position: relative;">
-
-              <p-avatar 
+          <p-avatar 
+              class="mr-2 neon-border"
               [label]="!auth.user()?.avatar ? avatarLabel() : undefined"
               [image]="auth.user()?.avatar || undefined"
-              class="mr-2" 
               size="large" 
               shape="circle">
             </p-avatar>

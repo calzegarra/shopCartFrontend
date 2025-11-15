@@ -1,0 +1,115 @@
+<p-toast></p-toast>
+<h1 style="text-align:center;font-family: 'Press Start 2P'">Editar Promoción</h1>
+<div style="display:flex; justify-content:center; width:100%;">
+<div class="grid" style="display:grid; gap:1rem; grid-template-columns: 1fr; max-width: 780px; width:100%;">
+<ng-container *ngIf="!loading; else loadingPromo">
+  <div class="grid" style="display:grid; gap:1rem; grid-template-columns: 1fr; max-width: 780px;">
+    <p-floatlabel variant="on">
+      <input
+        pInputText
+        id="description"
+        class="w-full"
+        [(ngModel)]="model.description"
+        autocomplete="off"
+        required
+      />
+      <label for="description">Descripción</label>
+    </p-floatlabel>
+
+    <p-floatlabel variant="on">
+      <p-inputNumber
+        inputId="discount"
+        [(ngModel)]="model.discount"
+        mode="decimal"
+        suffix="%"
+        class="w-full"
+        [min]="0"
+        [max]="100"
+        [minFractionDigits]="0"
+        [maxFractionDigits]="2"
+      ></p-inputNumber>
+      <label for="discount">Descuento</label>
+    </p-floatlabel>
+
+    <div class="row" style="display:grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
+      <p-floatlabel variant="on">
+        <p-datepicker
+          inputId="startDate"
+          [(ngModel)]="model.startDate"
+          [showTime]="true"
+          hourFormat="12"
+          [showIcon]="true"
+          class="w-full"
+        ></p-datepicker>
+        <label for="startDate">Fecha y hora inicio</label>
+      </p-floatlabel>
+
+      <p-floatlabel variant="on">
+        <p-datepicker
+          inputId="endDate"
+          [(ngModel)]="model.endDate"
+          [showTime]="true"
+          hourFormat="12"
+          [showIcon]="true"
+          class="w-full"
+        ></p-datepicker>
+        <label for="endDate">Fecha y hora fin</label>
+      </p-floatlabel>
+    </div>
+
+    <p-multiselect
+      [options]="states"
+      optionLabel="label"
+      optionValue="value"
+      [(ngModel)]="model.state"
+      placeholder="Seleccione estado"
+      [selectionLimit]="1"
+      display="chip"
+      class="w-full"
+    ></p-multiselect>
+
+    <div class="card" style="border: 1px dashed #ccc; padding: 1rem; border-radius: .5rem;">
+      <h4 style="margin-top: 0;">Banner referencial</h4>
+      <div style="display:flex; gap:.5rem; flex-wrap: wrap; align-items:center;">
+        <p-fileupload
+          #uploader
+          mode="basic"
+          chooseLabel="Elegir"
+          chooseIcon="pi pi-upload"
+          name="imagePromo"
+          url="https://www.primefaces.org/cdn/api/upload.php"
+          accept="image/*"
+          [maxFileSize]="maxFileSize"
+          [customUpload]="true"
+          (uploadHandler)="onSingleImageUpload($event)"
+        ></p-fileupload>
+        <p-button label="Upload" (onClick)="uploader.upload()" severity="secondary"></p-button>
+        <p-button
+          *ngIf="getPreview()"
+          label="Quitar"
+          (onClick)="clearImage()"
+          severity="danger"
+          [text]="true"
+        ></p-button>
+      </div>
+      <p-image *ngIf="getPreview()" [src]="getPreview()" alt="Banner referencial" width="250"></p-image>
+    </div>
+
+      <button pButton type="button" label="Volver" icon="pi pi-arrow-left" routerLink="/list-promo"></button>
+      <span style="flex:1 1 auto;"></span>
+      <button
+        pButton
+        type="button"
+        severity="success"
+        label="Actualizar "
+        icon="pi pi-save"
+        (click)="submit()"
+        [disabled]="saving"
+      ></button>
+  </div>
+</ng-container>
+  </div>
+    </div>
+<ng-template #loadingPromo>
+  <div style="padding: 2rem; text-align: center;">Cargando promoción...</div>
+</ng-template>

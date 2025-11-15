@@ -71,7 +71,7 @@ export class AppComponent {
   }
   get userName() {
     const u = this.auth.user();
-    return u ? `${u.name}` : '';
+    return u ? `${u.username}` : '';
   }
   avatarLabel() {
     const u = this.auth.user();

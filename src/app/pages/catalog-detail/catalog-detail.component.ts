@@ -79,15 +79,19 @@ export class CatalogDetailComponent {
     });
   }
 
+  trackByCategory(index: number, item: any) {
+  return item.id;
+}
+
   mainImage(game?: Videogame): string {
     if (!game) return '';
-    const source = game.image2 || game.image3 || game.mini || game.image || '';
+    const source =  game.image || game.image2 || game.image3 || '';
     return this.normalizeImage(source);
   }
 
   secondaryImages(game?: Videogame): string[] {
     if (!game) return [];
-    const sources = [game.image2, game.image3].filter((img) => !!img) as string[];
+    const sources = [game.image, game.image2, game.image3].filter((img) => !!img) as string[];
     return sources.map((src) => this.normalizeImage(src));
   }
 

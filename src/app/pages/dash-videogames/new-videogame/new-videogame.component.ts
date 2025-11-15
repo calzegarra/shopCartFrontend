@@ -33,7 +33,7 @@ type SelectOpt = { label: string; value: any };
 type ImageField = 'image' | 'image2' | 'image3';
 
 @Component({
-  selector: 'app-create-videogame',
+  selector: 'app-new-videogame',
   standalone: true,
   imports: [
     CommonModule,
@@ -53,10 +53,10 @@ type ImageField = 'image' | 'image2' | 'image3';
     ProgressBarModule,
     BadgeModule
   ],
-  templateUrl: './create-videogame.html',
+  templateUrl: './new-videogame.component.html',
   providers: [MessageService]
 })
-export class CreateVideogameComponent implements OnInit {
+export class NewVideogameComponent implements OnInit {
   @ViewChild('archiveUpload') archiveUpload?: FileUpload;
 
   // form model

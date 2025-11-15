@@ -90,8 +90,8 @@ export class CatalogComponent implements OnInit {
 
   openGameInNewTab(id: string) {
   if (!id) return;
-  // abre en una nueva pestaña sin afectar la navegación actual
-  window.open(`/future-videogames/${id}`, '_blank', 'noopener,noreferrer');
+  window.location.href = `/future-videogames/${id}`;
+  
 }
 }
 

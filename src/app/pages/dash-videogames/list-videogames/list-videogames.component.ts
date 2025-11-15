@@ -34,6 +34,7 @@ type FlashState = { responseMessage?: string; responseSeverity?: FlashSeverity }
 })
 export class ListVideogamesComponent implements OnInit {
   items: DtoCatalog[] = [];
+  private allItems: DtoCatalog[] = [];
   loading = false;
   titulo: string = '';
   flashMessage: string | null = null;
@@ -59,13 +60,29 @@ export class ListVideogamesComponent implements OnInit {
     this.loading = true;
     this.catalog.findCatalog().subscribe({
       next: (resp) => {
-        this.items = resp?.data ?? [];
+        this.allItems = resp?.data ?? [];
+        this.applyFilter(this.titulo);
         this.loading = false;
       },
       error: () => {
-        this.items = [];
+        this.allItems = [];
+        this.applyFilter(this.titulo);
         this.loading = false;
       }
+    });
+  }
+
+  applyFilter(query: string = ''): void {
+    this.titulo = query;
+    const normalized = (query ?? '').trim().toLowerCase();
+    if (!normalized) {
+      this.items = [...this.allItems];
+      return;
+    }
+    const terms = normalized.split(/\s+/).filter(Boolean);
+    this.items = this.allItems.filter((game) => {
+      const title = (game.title ?? '').toLowerCase();
+      return terms.every((term) => title.includes(term));
     });
   }
 }

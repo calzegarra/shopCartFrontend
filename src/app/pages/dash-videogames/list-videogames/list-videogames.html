@@ -8,11 +8,11 @@
 <p-floatlabel>
     <p-iconfield>
         <p-inputicon class="pi pi-search" />
-        <input pInputText id="over_label" [(ngModel)]="titulo" autocomplete="off" />
+        <input pInputText id="over_label" [(ngModel)]="titulo" (ngModelChange)="applyFilter($event)" autocomplete="off" />
     </p-iconfield>
     <label for="over_label">Buscar por título</label>
 </p-floatlabel>
-  <button pButton type="button" severity="help" label="Nuevo videojuego" icon="pi pi-plus" routerLink="/videogame-create"></button>
+  <button pButton type="button" severity="help" label="Nuevo videojuego" icon="pi pi-plus" routerLink="/videogame-new"></button>
   <button pButton type="button" severity="contrast" label="Volver" icon="pi pi-undo" routerLink="/dashboard"></button>
   <span style="flex: 1 1 auto;"></span>
 <p>¡Buscando, {{ titulo }}!</p>

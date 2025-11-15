@@ -19,6 +19,7 @@ import { CategoryService } from '../../../services/category.service';
 })
 export class ListCategoryComponent implements OnInit {
   items: Category[] = [];
+   private allItems: Category[] = [];
   loading = false;
   titulo: string = '';
 
@@ -32,13 +33,29 @@ export class ListCategoryComponent implements OnInit {
     this.loading = true;
     this.catalog.findAllCategories().subscribe({
       next: (resp) => {
-        this.items = resp?.data ?? [];
+        this.allItems = resp?.data ?? [];
+        this.applyFilter(this.titulo);
         this.loading = false;
       },
       error: () => {
-        this.items = [];
+        this.allItems = [];
+        this.applyFilter(this.titulo);
         this.loading = false;
       }
+    });
+  }
+
+    applyFilter(query: string = ''): void {
+    this.titulo = query;
+    const normalized = (query ?? '').trim().toLowerCase();
+    if (!normalized) {
+      this.items = [...this.allItems];
+      return;
+    }
+    const terms = normalized.split(/\s+/).filter(Boolean);
+    this.items = this.allItems.filter((category) => {
+      const description = (category.description ?? '').toLowerCase();
+      return terms.every((term) => description.includes(term));
     });
   }
 }

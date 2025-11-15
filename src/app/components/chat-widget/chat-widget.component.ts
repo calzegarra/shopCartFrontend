@@ -37,7 +37,7 @@ export class ChatWidgetComponent {
     this.isSending = true;
     try {
       const response = await firstValueFrom(this.chat.sendMessage(text));
-      const reply = response?.choices?.[0]?.message?.content ?? 'Lo siento, no pude procesar tu mensaje.';
+      const reply = response?.reply ?? 'Lo siento, no pude procesar tu mensaje.';
       this.messages.update(list => [...list, { role: 'bot', content: reply }]);
     } catch (err) {
       this.messages.update(list => [...list, { role: 'bot', content: 'Ocurrió un error al contactar el asistente.' }]);

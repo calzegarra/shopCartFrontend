@@ -1,5 +1,5 @@
 import { Component, computed } from '@angular/core';
-import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { CartService } from '../../services/cart.service';
 import { DtoMyProducts, DtoPurchases } from '../../model/purchase.model';
@@ -7,7 +7,7 @@ import { DtoMyProducts, DtoPurchases } from '../../model/purchase.model';
 @Component({
   selector: 'app-cart-user-detail',
   standalone: true,
-  imports: [CommonModule, CurrencyPipe, DatePipe],
+  imports: [CommonModule, DatePipe],
   templateUrl: './cart-user.html',
   styleUrls: ['./cart-user.scss']
 })

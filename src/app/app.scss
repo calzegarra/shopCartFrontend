@@ -68,3 +68,31 @@ body { margin:0; font-family: Inter, system-ui, Arial, sans-serif; background:va
   object-fit: cover;
   border-radius: 50%;
 }
+@keyframes neonPulse {
+  0% {
+    box-shadow:
+      0 0 10px #00eaff,
+      0 0 20px #ff00ff,
+      0 0 30px #00eaff;
+  }
+  50% {
+    box-shadow:
+      0 0 20px #ff00ff,
+      0 0 35px #00eaff,
+      0 0 50px #ff00ff;
+  }
+  100% {
+    box-shadow:
+      0 0 10px #00eaff,
+      0 0 20px #ff00ff,
+      0 0 30px #00eaff;
+  }
+}
+
+::ng-deep p-avatar.neon-border {
+  padding: 2px !important;
+  border-radius: 50% !important;
+  border: 2px solid transparent !important;
+  background: linear-gradient(135deg, #00eaff, #ff00ff) border-box !important;
+  animation: neonPulse 2.5s ease-in-out infinite;
+}

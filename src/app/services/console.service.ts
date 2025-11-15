@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Console } from '../model/console.model';
+import { Console, ConsoleCreateRequest, ConsoleUpdateRequest } from '../model/console.model';
 import { ResponseData } from '../model/responseData.model';
 import { AuthService } from './auth.service';
 
@@ -13,10 +13,23 @@ export class ConsoleService {
   constructor(private http: HttpClient, private auth: AuthService) {}
 
   findAllConsoles(): Observable<ResponseData<Console[]>> {
-    // Spring Security ahora protege este endpoint con Basic Auth (rol EMPLEADO).
-    // En Postman se envía Basic <base64(username:password)>, replicamos eso.
+    return this.http.get<ResponseData<Console[]>>(`${this.base}/findAll`, { headers: this.buildHeaders() });
+  }
+
+  createConsole(body: ConsoleCreateRequest): Observable<ResponseData<Console>> {
+    return this.http.post<ResponseData<Console>>(`${this.base}/create`, body, { headers: this.buildHeaders() });
+  }
+
+  findById(id: number | string): Observable<ResponseData<Console>> {
+    return this.http.get<ResponseData<Console>>(`${this.base}/findById/${id}`, { headers: this.buildHeaders() });
+  }
+
+  updateConsole(body: ConsoleUpdateRequest): Observable<ResponseData<Console>> {
+    return this.http.post<ResponseData<Console>>(`${this.base}/update`, body, { headers: this.buildHeaders() });
+  }
+
+  private buildHeaders(): HttpHeaders | undefined {
     const basic = this.auth.basicToken;
-    const headers = basic ? new HttpHeaders({ Authorization: `Basic ${basic}` }) : undefined;
-    return this.http.get<ResponseData<Console[]>>(`${this.base}/findAll`, { headers });
+    return basic ? new HttpHeaders({ Authorization: `Basic ${basic}` }) : undefined;
   }
 }

@@ -1,5 +1,6 @@
-<h1 style="font-family: 'Press Start 2P'">Editar Videojuego</h1>
-<div class="grid" style="display:grid; gap:1rem; grid-template-columns: 1fr; max-width: 780px;">
+<h1 style="text-align:center;font-family: 'Press Start 2P'">Editar Videojuego</h1>
+<div style="display:flex; justify-content:center; width:100%;">
+<div class="grid" style="display:grid; gap:1rem; grid-template-columns: 1fr; max-width: 780px; width:100%;">
   <p-floatlabel variant="on">
     <input pInputText id="title" class="w-full" [(ngModel)]="model.title" required />
     <label for="title">Titulo</label>
@@ -188,4 +189,5 @@
   <button pButton type="button" label="Volver" icon="pi pi-arrow-left" routerLink="/list-videogames"></button>
   <span style="flex:1 1 auto"></span>
   <button pButton type="button" severity="success" label="Actualizar" icon="pi pi-save" (click)="update()"></button>
+</div>
 </div>

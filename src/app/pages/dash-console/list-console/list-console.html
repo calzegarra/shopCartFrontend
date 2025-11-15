@@ -6,7 +6,7 @@
     </p-iconfield>
     <label for="over_label">Buscar por descripcion</label>
 </p-floatlabel>
-  <button pButton type="button" severity="help" label="Nueva Consola" icon="pi pi-desktop"></button>
+  <button pButton type="button" severity="help" label="Nueva Consola" icon="pi pi-desktop" routerLink="/console-new"></button>
   <button pButton type="button" severity="contrast" label="Volver" icon="pi pi-undo" routerLink="/dashboard"></button>
   <span style="flex: 1 1 auto;"></span>
 <p>¡Buscando, {{ titulo }}!</p>
@@ -36,7 +36,7 @@
       <td>{{ row.description }}</td>
       <td>{{ row.state === 1 ? 'Inactivo' : 'Activo' }}</td>
       <td>
-        <button pButton type="button" [rounded]="true" icon="pi pi-pen-to-square"></button>
+        <button pButton type="button" [rounded]="true" icon="pi pi-pen-to-square" [routerLink]="['/console-edit', row.id]"></button>
         <button pButton type="button" [rounded]="true" severity="danger" icon="pi pi-times"></button>
       </td>
     </tr>
