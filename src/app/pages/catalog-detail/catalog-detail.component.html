@@ -1,8 +1,8 @@
-<section class="catalog-detail">
+﻿<section class="catalog-detail">
   <div class="detail-header">
     <a pButton routerLink="/future-videogames" severity="secondary" [text]="true">
       <span pButtonIcon class="pi pi-arrow-left"></span>
-      <span pButtonLabel style="font-family: 'Press Start 2P'">Volver al catálogo</span>
+      <span pButtonLabel style="font-family: 'Press Start 2P'">Volver al catalogo</span>
     </a>
   </div>
 
@@ -45,7 +45,6 @@
             [value]="cat.description"
           ></p-tag>
         </div>
-
         <button
           pButton
           type="button"
@@ -58,10 +57,88 @@
         </button>
       </div>
     </div>
+    
+    <div class="detail-recommendations">
+
+      <h3 style="font-family: 'Press Start 2P'">tal vez te interese...</h3>
+      <div *ngIf="recommendationsLoading">Cargando recomendaciones...
+
+      </div>
+      <div class="detail-state error" *ngIf="!recommendationsLoading && recommendationsError">{{ recommendationsError }}</div>
+      <div *ngIf="!recommendationsLoading && !recommendationsError && !recommendations.length">
+        No hay recomendaciones para estas categorias.
+      </div>
+
+      <p-carousel
+        *ngIf="!recommendationsLoading && !recommendationsError && recommendations.length"
+        [value]="recommendations"
+        [numVisible]="3"
+        [numScroll]="1"
+        [circular]="true"
+        [autoplayInterval]="3000"
+      >
+        <ng-template pTemplate="item" let-product>
+          <div class="recommendation-card">
+            <div class="recommendation-image">
+              <img [src]="miniImage(product)" [alt]="product.title" />
+            </div>
+            <div class="recommendation-info">
+              <div class="recommendation-title">{{ product.title }}</div>
+              <div class="recommendation-price">{{ product.price | currency: 'S/.':'symbol':'1.2-2' }}</div>
+              <button
+                pButton
+                type="button"
+                [rounded]="true"
+                [severity]="'secondary'"
+                (click)="openGameInNewTab(product.id)"
+              >
+                <span pButtonIcon class="pi pi-eye"></span>
+              </button>
+            </div>
+          </div>
+        </ng-template>
+      </p-carousel>
+    </div>
+
+        <div class="detail-comments">
+          <h3 style="font-family: 'Press Start 2P'">Reseñas de compradores</h3>
+          <div *ngIf="commentsLoading">Cargando comentarios...</div>
+          <div class="detail-state error" *ngIf="!commentsLoading && commentsError">{{ commentsError }}</div>
+          <div *ngIf="!commentsLoading && !commentsError && comments.length === 0">Aún no hay ninguna reseña disponible.</div>
+
+          <p-accordion
+            *ngIf="!commentsLoading && !commentsError && comments.length"
+            [multiple]="true"
+            [value]="comments.length ? ['0'] : []"
+          >
+            <p-accordion-panel *ngFor="let c of comments; index as i" [value]="i.toString()">
+              <p-accordion-header>
+                <ng-template #toggleicon let-active="active">
+                  <i class="pi" [ngClass]="active ? 'pi-minus' : 'pi-plus'"></i>
+                </ng-template>
+                <span style="display: flex; align-items: center; gap: 8px; width: 100%">
+                  <p-avatar [image]="avatarSource(c)" shape="circle"></p-avatar>
+                  <span class="font-bold" style="white-space: nowrap">{{ c.username || 'Anonimo' }}</span>
+                  <span style="margin-left: auto; display: flex; align-items: center; gap: 8px">
+                    <p-rating [ngModel]="c.score || 0" [readonly]="true" [disabled]="true"></p-rating>
+                    <p-badge [value]="c.score ?? 0"></p-badge>
+                  </span>
+                </span>
+              </p-accordion-header>
+              <p-accordion-content>
+                <p class="m-0">{{ c.comment || 'Sin comentario' }}</p>
+                <small *ngIf="c.commentCreateDate">Publicado: {{ c.commentCreateDate | date: 'short' }}</small>
+              </p-accordion-content>
+            </p-accordion-panel>
+          </p-accordion>
+        </div>  
   </ng-container>
 
   <ng-template #detailState>
-    <div class="detail-state" *ngIf="loading">Cargando...</div>
+    <div class="detail-state" *ngIf="loading" style="display: flex; gap: 12px; align-items: center;">
+      <p-progressSpinner styleClass="spinner-sm"></p-progressSpinner>
+      <span>Cargando...</span>
+    </div>
     <div class="detail-state error" *ngIf="!loading && errorMessage">{{ errorMessage }}</div>
   </ng-template>
 

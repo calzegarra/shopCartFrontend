@@ -1,0 +1,108 @@
+<section class="reviews">
+  <h2 style="font-family: 'Press Start 2P'">Mis reseñas</h2>
+
+  <div class="info" *ngIf="infoMessage">{{ infoMessage }}</div>
+
+  <div class="error" *ngIf="pendingError && completedError">{{ pendingError }}</div>
+  <div class="actions" *ngIf="pendingError && completedError">
+    <button pButton type="button" (click)="goToLogin()" *ngIf="pendingError?.includes('iniciar')">Iniciar sesion</button>
+  </div>
+
+  <p-tabs value="pending">
+    <p-tablist>
+      <p-tab value="pending">Pendientes</p-tab>
+      <p-tab value="done">Realizadas</p-tab>
+    </p-tablist>
+    <p-tabpanels>
+      <p-tabpanel value="pending">
+        <div class="loading" *ngIf="pendingLoading">
+          <p-progressSpinner styleClass="spinner"></p-progressSpinner>
+          <span>Cargando resenas pendientes...</span>
+        </div>
+        <div class="error" *ngIf="!pendingLoading && pendingError">{{ pendingError }}</div>
+        <div *ngIf="!pendingLoading && !pendingError && pending.length === 0">No tienes resenas pendientes.</div>
+
+        <div class="review-card" *ngFor="let review of pending">
+          <div class="thumb">
+            <img [src]="miniImage(review)" [alt]="review.title" />
+          </div>
+          <div class="content">
+            <div class="header">
+              <div>
+                <div class="title">{{ review.title }}</div>
+                <div class="meta">Compra: {{ review.createDateCart | date: 'short' }}</div>
+              </div>
+              <div class="badge">ID compra: {{ review.itemId }}</div>
+            </div>
+
+            <p-rating [(ngModel)]="review.draftScore"></p-rating>
+            <textarea
+              class="p-inputtext p-component"
+              rows="3"
+              [(ngModel)]="review.draftComment"
+              placeholder="Cuentanos tu experiencia"
+            ></textarea>
+
+            <div class="actions">
+              <button pButton type="button" [severity]="'primary'" (click)="onSave(review, true)">Publicar</button>
+            </div>
+          </div>
+        </div>
+      </p-tabpanel>
+
+      <p-tabpanel value="done">
+        <div class="loading" *ngIf="completedLoading">
+          <p-progressSpinner styleClass="spinner"></p-progressSpinner>
+          <span>Cargando resenas realizadas...</span>
+        </div>
+        <div class="error" *ngIf="!completedLoading && completedError">{{ completedError }}</div>
+        <div *ngIf="!completedLoading && !completedError && completed.length === 0">Aun no has registrado resenas.</div>
+
+        <div class="review-card" *ngFor="let review of completed">
+          <div class="thumb">
+            <img [src]="miniImage(review)" [alt]="review.title" />
+          </div>
+          <div class="content">
+            <div class="header">
+              <div>
+                <div class="title">{{ review.title }}</div>
+                <div class="meta">
+                  Compra: {{ review.createDateCart | date: 'short' }}
+                  <span *ngIf="review.commentCreateDate"> • Resena: {{ review.commentCreateDate | date: 'short' }}</span>
+                </div>
+              </div>
+              <div class="badge">ID compra: {{ review.itemId }}</div>
+            </div>
+
+            <p-rating [(ngModel)]="review.draftScore" [disabled]="!review.editing"></p-rating>
+
+            <textarea
+              class="p-inputtext p-component"
+              rows="3"
+              [(ngModel)]="review.draftComment"
+              [disabled]="!review.editing"
+            ></textarea>
+
+            <div class="actions">
+              <button
+                pButton
+                type="button"
+                [severity]="'secondary'"
+                *ngIf="!review.editing"
+                (click)="startEdit(review)"
+              >
+                Editar
+              </button>
+              <ng-container *ngIf="review.editing">
+                <button pButton type="button" [severity]="'primary'" (click)="onSave(review)">Guardar cambios</button>
+                <button pButton type="button" [severity]="'secondary'" [text]="true" (click)="cancelEdit(review)">
+                  Cancelar
+                </button>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </p-tabpanel>
+    </p-tabpanels>
+  </p-tabs>
+</section>

@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+﻿import { CommonModule } from '@angular/common';
 import { Component, DestroyRef, OnInit, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AccordionModule } from 'primeng/accordion';
@@ -58,23 +58,22 @@ export class CartViewComponent implements OnInit {
     return this.detailErrors()[cartId] ?? null;
   }
 
-onAccordionOpen(event: any) {
-  const cartId = event?.panel?.value;
-  console.log('🟢 Panel abierto, cartId:', cartId, event);
+  onAccordionOpen(event: any) {
+    const cartId = event?.panel?.value;
+    console.log('dYY� Panel abierto, cartId:', cartId, event);
 
-  if (!cartId) {
-    console.warn('⚠️ No se encontró cartId en el evento');
-    return;
+    if (!cartId) {
+      console.warn('�s��,? No se encontrA3 cartId en el evento');
+      return;
+    }
+
+    if (this.isDetailLoading(cartId) || this.cartDetail(cartId)) {
+      console.log('�?-�,? Detalle ya cargado o en proceso para cartId', cartId);
+      return;
+    }
+
+    this.fetchDetail(Number(cartId));
   }
-
-  if (this.isDetailLoading(cartId) || this.cartDetail(cartId)) {
-    console.log('⏭️ Detalle ya cargado o en proceso para cartId', cartId);
-    return;
-  }
-
-  this.fetchDetail(Number(cartId));
-}
-
 
   private onTabOpen(purchase: DtoMyCart) {
     if (this.isDetailLoading(purchase.cartId)) {
@@ -83,8 +82,19 @@ onAccordionOpen(event: any) {
     this.fetchDetail(purchase.cartId);
   }
 
-  viewGameDetail(game: CartVideogameDetail) {
-    window.alert(`Funcionalidad en construccion: pronto veras el detalle completo de "${game.title}".`);
+  downloadFile(game: CartVideogameDetail) {
+    if (!game?.file) {
+      window.alert('No hay archivo disponible para descargar.');
+      return;
+    }
+    const blob = this.base64ToBlob(game.file, 'application/zip');
+    const url = URL.createObjectURL(blob);
+    const normalizedTitle = game.title ? game.title.replace(/[^a-z0-9]+/gi, '_') : 'archivo';
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${normalizedTitle}.zip`;
+    link.click();
+    URL.revokeObjectURL(url);
   }
 
   requestRefund(game: CartVideogameDetail) {
@@ -138,28 +148,28 @@ onAccordionOpen(event: any) {
         finalize(() => this.setLoadingDetail(cartId, false))
       )
       .subscribe({
-                  next: (response) => {
-                    console.log('📦 Respuesta del detalle del carrito', cartId, response);
+        next: (response) => {
+          console.log('dY"� Respuesta del detalle del carrito', cartId, response);
 
-                    if (response?.status && response.data) {
-                      this.detailCache.update((curr) => {
-                        const copy = { ...curr };
-                        copy[Number(cartId)] = response.data as CartDetail;
-                        console.log('✅ detailCache actualizado:', copy);
-                        return copy;
-                      });
+          if (response?.status && response.data) {
+            this.detailCache.update((curr) => {
+              const copy = { ...curr };
+              copy[Number(cartId)] = response.data as CartDetail;
+              console.log('�o. detailCache actualizado:', copy);
+              return copy;
+            });
 
-                      this.detailErrors.update((curr) => {
-                        const { [cartId]: _, ...rest } = curr;
-                        return rest;
-                      });
-                    } else {
-                      this.detailErrors.update((curr) => ({
-                        ...curr,
-                        [cartId]: response?.message || 'No hay detalle disponible.'
-                      }));
-                    }
-                  },
+            this.detailErrors.update((curr) => {
+              const { [cartId]: _, ...rest } = curr;
+              return rest;
+            });
+          } else {
+            this.detailErrors.update((curr) => ({
+              ...curr,
+              [cartId]: response?.message || 'No hay detalle disponible.'
+            }));
+          }
+        },
         error: () => {
           this.detailErrors.update((curr) => ({ ...curr, [cartId]: 'No se pudo recuperar el detalle de la compra.' }));
         }
@@ -170,25 +180,34 @@ onAccordionOpen(event: any) {
     this.loadingDetails.update((curr) => ({ ...curr, [cartId]: value }));
   }
 
-    onAccordionValueChange(values: string | number | (string | number)[] | null | undefined) {
-      console.log('🟢 valueChange detectado:', values);
+  onAccordionValueChange(values: string | number | (string | number)[] | null | undefined) {
+    console.log('dYY� valueChange detectado:', values);
 
-      if (!values) return; // evita null o undefined
+    if (!values) return; // evita null o undefined
 
-      // Normaliza a arreglo
-      const activeValues = Array.isArray(values) ? values : [values];
-      const lastValue = activeValues[activeValues.length - 1];
-      const cartId = Number(lastValue);
+    // Normaliza a arreglo
+    const activeValues = Array.isArray(values) ? values : [values];
+    const lastValue = activeValues[activeValues.length - 1];
+    const cartId = Number(lastValue);
 
-      console.log('🟢 Se abrió el panel con cartId:', cartId);
+    console.log('dYY� Se abriA3 el panel con cartId:', cartId);
 
-      if (this.isDetailLoading(cartId) || this.cartDetail(cartId)) {
-        console.log('⏭️ Detalle ya cargado o en proceso para cartId', cartId);
-        return;
-      }
-
-      this.fetchDetail(cartId);
+    if (this.isDetailLoading(cartId) || this.cartDetail(cartId)) {
+      console.log('�?-�,? Detalle ya cargado o en proceso para cartId', cartId);
+      return;
     }
 
+    this.fetchDetail(cartId);
+  }
 
+  private base64ToBlob(base64: string, contentType: string): Blob {
+    const clean = base64.includes(',') ? base64.substring(base64.indexOf(',') + 1) : base64;
+    const byteChars = atob(clean);
+    const byteNumbers = new Array(byteChars.length);
+    for (let i = 0; i < byteChars.length; i++) {
+      byteNumbers[i] = byteChars.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+    return new Blob([byteArray], { type: contentType });
+  }
 }

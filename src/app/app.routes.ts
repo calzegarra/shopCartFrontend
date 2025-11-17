@@ -30,6 +30,7 @@ export const routes: Routes = [
   { path: 'list-videogames', component: ListVideogamesComponent },
   { path: 'midetallecompra', loadComponent: () => import('./pages/cart-user/cart-user').then((m) => m.CartUserComponent) },
   { path: 'mis-compras', loadComponent: () => import('./pages/cart-view/cart-view.component').then((m) => m.CartViewComponent) },
+  { path: 'mis-resenas', loadComponent: () => import('./pages/reviews/reviews.component').then((m) => m.ReviewsComponent) },
   { path: 'videogame-new', canActivate: [dashboardGuard], loadComponent: () => import('./pages/dash-videogames/new-videogame/new-videogame.component').then(m => m.NewVideogameComponent) },
   { path: 'videogame-edit/:id', canActivate: [dashboardGuard], loadComponent: () => import('./pages/dash-videogames/edit-videogame/edit-videogame.component').then(m => m.EditVideogameComponent) },
   {

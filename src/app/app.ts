@@ -93,8 +93,7 @@ export class AppComponent {
     if (isClient) {
       items.push(
         { label: 'Mis compras', icon: 'pi pi-shopping-bag', command: () => this.goToMyPurchases() },
-        { label: 'Favoritos', icon: 'pi pi-heart', command: () => console.log('Favoritos') },
-        { label: 'Mis reseñas', icon: 'pi pi-star', command: () => console.log('Resenas') },
+        { label: 'Mis reseñas', icon: 'pi pi-star', command: () => this.goToMyReviews() },
       );
     }else{
         items.push(
@@ -137,5 +136,11 @@ export class AppComponent {
     this.router.navigateByUrl('/mis-compras');
   }
 
+  private goToMyReviews() {
+    this.menuOpen = false;
+    this.router.navigateByUrl('/mis-resenas');
+  }
 
 }
+
+

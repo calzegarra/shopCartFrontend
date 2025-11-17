@@ -1,5 +1,6 @@
-import { Component, OnInit, signal } from '@angular/core';
+﻿import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule, CurrencyPipe } from '@angular/common';
+import { Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { TagModule } from 'primeng/tag';
@@ -21,7 +22,12 @@ type GameVM = { id: string; title: string; price: number; cover: string; hasDisc
   templateUrl: './catalog.component.html'
 })
 export class CatalogComponent implements OnInit {
-  constructor(private cart: CartService, private catalog: CatalogService, private messages: MessageService) {}
+  constructor(
+    private cart: CartService,
+    private catalog: CatalogService,
+    private messages: MessageService,
+    private router: Router
+  ) {}
 
   games = signal<GameVM[]>([]);
   visible = false;
@@ -81,7 +87,7 @@ export class CatalogComponent implements OnInit {
     this.visible = false;
   }
 
-  // Compatibilidad si se quiere agregar desde la tarjeta del catálogo
+  // Compatibilidad si se quiere agregar desde la tarjeta del catalogo
   addToCart(item: GameVM) {
     if (!item) return;
     this.cart.add({ id: item.id, title: item.title, price: item.price });
@@ -89,9 +95,7 @@ export class CatalogComponent implements OnInit {
   }
 
   openGameInNewTab(id: string) {
-  if (!id) return;
-  window.location.href = `/future-videogames/${id}`;
-  
+    if (!id) return;
+    this.router.navigate(['/future-videogames', id]);
+  }
 }
-}
-

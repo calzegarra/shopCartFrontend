@@ -1,4 +1,4 @@
-<section class="cart-view">
+﻿<section class="cart-view">
   <header class="cart-view__header">
     <div>
       <p class="eyebrow">Historial</p>
@@ -69,20 +69,13 @@
               <div class="game-card__body">
                 <h3>{{ game.title }}</h3>
                 <div class="game-card__actions">
-                  <button
-                    type="button"
-                    pButton
-                    label="Ver detalle"
-                    icon="pi pi-search"
-                    (click)="viewGameDetail(game)"
-                  ></button>
                     <button
                     type="button"
                     pButton
                     severity="help"
                     label="Descargar e Instalar"
                     icon="pi pi-download"
-                    (click)="requestRefund(game)"
+                    (click)="downloadFile(game)"
                   ></button>
                    <button
                     type="button"

@@ -174,13 +174,19 @@ export class NewVideogameComponent implements OnInit {
     }
   }
 
-  onTemplatedUpload(event: any) {
+  async onTemplatedUpload(event: FileUploadHandlerEvent) {
+    const files = event.files ?? [];
+    if (!files.length) return;
+    const primary = files[0];
+    const payload = await this.readFilePayload(primary);
+    this.model.file = payload.raw;
     event.files.forEach((file: any) => (file.uploaded = true));
     this.messageService.add({
       severity: 'success',
       summary: 'Archivo',
-      detail: 'Archivo cargado correctamente.'
+      detail: `${primary.name} cargado correctamente.`
     });
+    (event as any)?.options?.clear?.();
   }
 
   choose(event: Event, callback: (event?: Event) => void) {

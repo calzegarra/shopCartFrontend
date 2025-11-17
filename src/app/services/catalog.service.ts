@@ -16,6 +16,10 @@ export class CatalogService {
     return this.http.get<ResponseData<DtoCatalog[]>>(`${this.base}/findCatalog`);
   }
 
+  findRecommendations(categories: string[]): Observable<ResponseData<DtoCatalog[]>> {
+    return this.http.post<ResponseData<DtoCatalog[]>>(`${this.base}/findRecommendations`, categories || []);
+  }
+
   findById(id: number): Observable<ResponseData<Videogame>> {
     return this.http.get<ResponseData<Videogame>>(`${this.base}/findById/${id}`);
   }
